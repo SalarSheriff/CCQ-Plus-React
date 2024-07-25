@@ -12,14 +12,16 @@ export default function App() {
 
     return (
         <>
-<SignInButton />
-<SignOutButton />
+
+
         <AuthenticatedTemplate>
                 <h1>Signed in!</h1>
+                <SignOutButton />
             </AuthenticatedTemplate>
 
             <UnauthenticatedTemplate>
                 <h1>Please Sign In</h1>
+                <SignInButton />
             </UnauthenticatedTemplate>
         
         
