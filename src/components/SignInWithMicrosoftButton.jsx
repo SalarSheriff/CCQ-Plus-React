@@ -3,15 +3,31 @@ import React from 'react';
 import { Button,Typography } from '@mui/material';
 import MicrosoftLogo from '../assets/Microsoft_logo.png'; // Replace with the path to your Microsoft logo
 
+import { useMsal } from "@azure/msal-react";
+import { loginRequest } from "../authConfig";
+
+
 
 function SignInWithMicrosoftButton() {
 
+    const { instance } = useMsal();
 
+    const handleLogin = (loginType) => {
+        if (loginType === "popup") {
+            instance.loginPopup(loginRequest).catch(e => {
+                console.log(e);
+            });
+        } else if (loginType === "redirect") {
+            instance.loginRedirect(loginRequest).catch(e => {
+                console.log(e);
+            });
+        }
+    }
     return (
         <Button
       variant="contained"
       color="primary"
- 
+        onClick={() => handleLogin("redirect")}
       sx={{
         display: 'flex',
         

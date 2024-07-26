@@ -5,27 +5,40 @@ import { SignInButton } from './components/SignInButton';
 import { SignOutButton } from './components/SignOutButton';
 import SignInPage from './components/SignInPage';
 import '../src/App.css'
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 export default function App() {
 
-  const { instance, accounts } = useMsal();
-    
+    const { instance, accounts } = useMsal();
+
 
     return (
         <>
-<SignInPage />
+            <Router>
 
-        <AuthenticatedTemplate>
-                <h1>Signed in!</h1>
-                <SignOutButton />
-            </AuthenticatedTemplate>
+                <Routes>
 
-            <UnauthenticatedTemplate>
-                <h1>Please Sign In</h1>
-                <SignInButton />
-            </UnauthenticatedTemplate>
-        
-        
+                    <Route path="/" element={
+                        <>
+                            <AuthenticatedTemplate>
+                                <h1>Home Page/Company Selector</h1>
+                                <SignOutButton />
+                            </AuthenticatedTemplate>
+
+                            <UnauthenticatedTemplate>
+                                <SignInPage />
+                            </UnauthenticatedTemplate>
+                        </>
+
+                    } />
+
+
+                </Routes>
+            </Router>
+
+
+
+
+
         </>
     );
 }
