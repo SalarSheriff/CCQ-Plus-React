@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
 import { SignInButton } from './components/SignInButton';
 import { SignOutButton } from './components/SignOutButton';
-
+import SignInPage from './components/SignInPage';
+import '../src/App.css'
 
 export default function App() {
 
@@ -12,7 +13,7 @@ export default function App() {
 
     return (
         <>
-
+<SignInPage />
 
         <AuthenticatedTemplate>
                 <h1>Signed in!</h1>
