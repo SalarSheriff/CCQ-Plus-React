@@ -7,6 +7,7 @@ import SignInPage from './components/SignInPage';
 import '../src/App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Box } from '@mui/material';
+import CompanySelectorPage from './components/CompanySelectorPage';
 export default function App() {
 
     const { instance, accounts } = useMsal();
@@ -32,6 +33,7 @@ export default function App() {
                             }}>
                                 <AuthenticatedTemplate>
                                     <h1>Home Page/Company Selector</h1>
+                                    <CompanySelectorPage />
                                     <SignOutButton />
                                 </AuthenticatedTemplate>
 
