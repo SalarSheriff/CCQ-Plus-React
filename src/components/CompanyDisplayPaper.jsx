@@ -4,7 +4,7 @@ import imageMapper from '../imageMapper';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 
-function CompanyDisplayPaper({ company, mascot }) {
+function CompanyDisplayPaper({ company, mascot, buttonText }) {
     // Load appropriate image based on company name
     const companyLogo = imageMapper[company] || imageMapper['default']; // Use 'default' as a fallback if needed
 
@@ -12,9 +12,9 @@ function CompanyDisplayPaper({ company, mascot }) {
         <Paper
             elevation={5}
             sx={{
-                width: '100%',
-                height: '100%', // Adjust the height as needed
-            
+                width: '350px',
+                height: '350px', // Adjust the height as needed
+
             }}
         >
             <Box
@@ -53,22 +53,23 @@ function CompanyDisplayPaper({ company, mascot }) {
                     fontFamily: "Archivo Black",
                     fontWeight: 400,
                     fontStyle: "normal",
-                    fontSize: "2.5vw",
+                    fontSize: "2rem",
                     
-                }}>{company + " " + mascot + " CCQ"}</Typography>
-                <Button variant='contained' endIcon={<PlayCircleIcon
+                }}>{company + " " + mascot}</Typography>
+                <Button variant='contained' color={buttonText == "Sign In" ? "primary" : "warning"} endIcon={<PlayCircleIcon
                 
                 sx={{
-                    width: '3.3vw',
-                    height: '3.3vw',
+                    width: '30px',
+                    height: '30px',
                 }} />} sx={{
                     width: '100%',
-                    height: '4vw',
-                    fontSize: '2vw',
+                    height: '50px',
+                    fontSize: buttonText === "Sign In" ? '1.5rem': '1rem',
+                  
                 }}>
                 
                 
-                Begin Shift
+                {buttonText}
                 
                 
                 </Button>

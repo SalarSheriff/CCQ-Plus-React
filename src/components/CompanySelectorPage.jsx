@@ -1,10 +1,16 @@
+import { Container, Box } from "@mui/material";
 import CompanyDisplayPaper from "./CompanyDisplayPaper";
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
+import React, { useEffect, useState } from 'react';
+
+function CompanySelectorPage({getLastLogForEachCompany}) {
+
+//The latest logs for each company
+    const [lastLogs, setLastLogs] = useState([]);
 
 
-function CompanySelectorPage() {
-    
+   
 
     const regiments = [
         {
@@ -53,12 +59,12 @@ function CompanySelectorPage() {
                     name: 'G1',
                     mascot: "Greeks",
                     slogan: "G1 SLOGAN!"
-                },{
+                }, {
                     id: 8,
                     name: 'H1',
                     mascot: "Hogs",
                     slogan: "H1 SLOGAN!"
-                },{
+                }, {
                     id: 9,
                     name: 'I1',
                     mascot: "Iron Horses",
@@ -69,23 +75,66 @@ function CompanySelectorPage() {
     ]
 
 
-    return(
-
-        <>
-    <Grid container spacing={'5%'}>
+    
 
 
-<Grid xs={4}> 
+    useEffect(() => { 
 
-<CompanyDisplayPaper company={"I1"} mascot={"Ironhorses"}/>
-</Grid>
-<Grid xs={4}> 
 
-<CompanyDisplayPaper company={"I1"} mascot={"Ironhorses"}/>
-</Grid>
-        </Grid>
-            
-        </>
+        //Async functions must be defined in useEffect
+        const fetchLastLogs = async () => { 
+
+
+            const logs = await getLastLogForEachCompany();
+            console.log(logs)
+            setLastLogs(logs);
+           console.log( logs.find(log=>log.company==="I1"))
+        }
+
+        fetchLastLogs();
+        
+    },[] )
+
+    //This will take a "last log" and generate the text to be displayed on the button
+    //Ex if the last log for I1 was CDT Sheriff assumed, then it would say, CDT Sheriff is currently on the CCQ
+    function getButtonDisplayText(log) {
+        if(log) {
+            return `${log.name} is currently on the CCQ`
+        }
+    }
+
+    return (
+        <Box sx={{
+            paddingLeft: { xs: '5%', sm: '5%', md: '5%', lg: '5%' },
+            paddingRight: { xs: '5%', sm: '5%', md: '5%', lg: '5%' },
+            paddingTop: { xs: '2%', sm: '2%', md: '2%', lg: '2%' },
+            margin: 'auto',
+           overflow: 'auto',
+        }}>
+
+     
+            {regiments.map((regiment) => (
+
+                <Grid container spacing={'5%'}>
+
+                    {regiment.companies.map((company) => (
+                        <Grid xs={12} sm={12} lg={6} xl={3}>
+                           
+
+                           {/* Access the data by setting company to to company.name */}
+
+                            {lastLogs.length > 0 && lastLogs.find(log=>log.company===company.name) ? <CompanyDisplayPaper company={company.name} mascot={company.mascot} buttonText={getButtonDisplayText(lastLogs.find(log=>log.company===company.name))} /> :<CompanyDisplayPaper company={company.name} mascot={company.mascot} buttonText="Sign In" /> }
+               
+                            
+                            
+                        </Grid>
+                    ))}
+
+                    
+                </Grid>
+
+            ))}
+        </Box>
     )
 }
 
