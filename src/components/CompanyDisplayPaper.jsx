@@ -4,10 +4,10 @@ import imageMapper from '../imageMapper';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 
-function CompanyDisplayPaper({ company, mascot, buttonText }) {
+function CompanyDisplayPaper({ company, mascot, buttonText, handleSelectCompany }) {
     // Load appropriate image based on company name
     const companyLogo = imageMapper[company] || imageMapper['default']; // Use 'default' as a fallback if needed
-
+    
     return (
         <Paper
             elevation={5}
@@ -56,7 +56,7 @@ function CompanyDisplayPaper({ company, mascot, buttonText }) {
                     fontSize: "2rem",
                     
                 }}>{company + " " + mascot}</Typography>
-                <Button variant='contained' color={buttonText == "Sign In" ? "primary" : "warning"} endIcon={<PlayCircleIcon
+                <Button onClick={()=>handleSelectCompany(company)} variant='contained' color={buttonText === "Sign In" ? "primary" : "warning"} endIcon={<PlayCircleIcon
                 
                 sx={{
                     width: '30px',
@@ -66,7 +66,10 @@ function CompanyDisplayPaper({ company, mascot, buttonText }) {
                     height: '50px',
                     fontSize: buttonText === "Sign In" ? '1.5rem': '1rem',
                   
-                }}>
+                }} 
+                
+              
+                >
                 
                 
                 {buttonText}

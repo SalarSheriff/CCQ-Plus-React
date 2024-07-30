@@ -1,4 +1,4 @@
-import { Container, Box } from "@mui/material";
+import { Container, Box, Dialog, DialogActions,Button, DialogContent, DialogContentText,DialogTitle, Slide } from "@mui/material";
 import CompanyDisplayPaper from "./CompanyDisplayPaper";
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
@@ -10,6 +10,17 @@ function CompanySelectorPage({getLastLogForEachCompany}) {
     const [lastLogs, setLastLogs] = useState([]);
 
 
+    //This will be used to track the state of the confirmation dialogue box that appears when a user clicks join in on a CCQ
+    const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+
+    //This will be used to track the company that the user has selected to sign in to. Whose button they clicked
+    const [selectedCompany, setSelectedCompany] = useState(null);
+
+    //Transition for the dialogue modal
+    const Transition = React.forwardRef(function Transition(props, ref) {
+        return <Slide direction="up" ref={ref} {...props} />;
+      });
+      
    
 
     const regiments = [
@@ -76,7 +87,25 @@ function CompanySelectorPage({getLastLogForEachCompany}) {
 
 
     
+    function handleConfirmationDialogueClose() {
+        setSelectedCompany(null);
+        setConfirmationDialogOpen(false);
+        
+    }
 
+
+    //This function will be called when a user clicks on a company to sign in
+    //It will open a dialogue box asking if the user is sure they want to sign in
+    //If the user clicks yes, it will call the sign in function and pass the company
+    function handleSelectCompany(_company) {
+
+        alert(_company)
+      
+        // setSelectedCompany(_company);
+        // setConfirmationDialogOpen(true);
+        
+        
+    }
 
     useEffect(() => { 
 
@@ -123,7 +152,7 @@ function CompanySelectorPage({getLastLogForEachCompany}) {
 
                            {/* Access the data by setting company to to company.name */}
 
-                            {lastLogs.length > 0 && lastLogs.find(log=>log.company===company.name) ? <CompanyDisplayPaper company={company.name} mascot={company.mascot} buttonText={getButtonDisplayText(lastLogs.find(log=>log.company===company.name))} /> :<CompanyDisplayPaper company={company.name} mascot={company.mascot} buttonText="Sign In" /> }
+                            {lastLogs.length > 0 && lastLogs.find(log=>log.company===company.name) ? <CompanyDisplayPaper handleSelectCompany={handleSelectCompany} company={company.name} mascot={company.mascot} buttonText={getButtonDisplayText(lastLogs.find(log=>log.company===company.name))}  /> :<CompanyDisplayPaper handleSelectCompany={handleSelectCompany} company={company.name} mascot={company.mascot} buttonText="Sign In" /> }
                
                             
                             
@@ -134,6 +163,28 @@ function CompanySelectorPage({getLastLogForEachCompany}) {
                 </Grid>
 
             ))}
+
+
+
+            <Dialog 
+            open={confirmationDialogOpen}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleConfirmationDialogueClose}
+
+            >
+                
+                <DialogTitle>Sign in to the {selectedCompany} CCQ</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Are you sure you want to sign in to this CCQ?
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+          <Button onClick={handleConfirmationDialogueClose}>Disagree</Button>
+          <Button onClick={handleConfirmationDialogueClose}>Agree</Button>
+        </DialogActions>
+            </Dialog>
         </Box>
     )
 }

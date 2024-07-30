@@ -73,9 +73,9 @@ export default function App() {
                                 display: 'flex',
                                 flexDirection: 'column',
                             }}>
-                                <CCQPlusAppBar/>
+                                
                                 <AuthenticatedTemplate>
-                                    
+                                <CCQPlusAppBar/>
                                     <CompanySelectorPage getLastLogForEachCompany={getLastLogForEachCompany} />
                                     <SignOutButton />
                                 </AuthenticatedTemplate>
