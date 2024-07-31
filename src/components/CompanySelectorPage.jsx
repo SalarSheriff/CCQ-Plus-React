@@ -3,13 +3,22 @@ import CompanyDisplayPaper from "./CompanyDisplayPaper";
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 import React, { useEffect, useState } from 'react';
-
+import { useNavigate } from "react-router-dom";
 
 //Transition for the dialogue modal
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
+
+
+
+  
 function CompanySelectorPage({getLastLogForEachCompany, accountName, accountEmail}) {
+
+
+
+
+const navigate = useNavigate(); 
 
 //The latest logs for each company
     const [lastLogs, setLastLogs] = useState([]);
@@ -33,6 +42,13 @@ function CompanySelectorPage({getLastLogForEachCompany, accountName, accountEmai
       const handleConfirmationDialogueClose = () => {
        setConfirmationDialogueOpen(false);
       };
+
+      function handleConfirmationDialogueAccept() {
+
+
+        navigate("/ccq/" + selectedCompany);
+      }
+        
 
 
 
@@ -184,7 +200,7 @@ setConfirmationDialogueOpen(true);
         <DialogTitle>Sign Into the {selectedCompany} CCQ</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-           Confirm signining into the {selectedCompany} CCQ as {accountName}({accountEmail}). 
+           Confirm signing into the {selectedCompany} CCQ as {accountName}({accountEmail}). 
            <br/>
            False Logs are subject to the USMA Honor Code
            
@@ -192,7 +208,7 @@ setConfirmationDialogueOpen(true);
         </DialogContent>
         <DialogActions>
           <Button onClick={handleConfirmationDialogueClose}>Dismiss</Button>
-          <Button onClick={handleConfirmationDialogueClose}>Sign In</Button>
+          <Button onClick={handleConfirmationDialogueAccept}>Sign In</Button>
         </DialogActions>
       </Dialog>
 
