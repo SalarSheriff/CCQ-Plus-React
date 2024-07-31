@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
-function CompanySelectorPage({getLastLogForEachCompany}) {
+function CompanySelectorPage({getLastLogForEachCompany, accountName, accountEmail}) {
 
 //The latest logs for each company
     const [lastLogs, setLastLogs] = useState([]);
@@ -181,16 +181,18 @@ setConfirmationDialogueOpen(true);
         onClose={handleConfirmationDialogueClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle>Sign Into the {selectedCompany} CCQ</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
+           Confirm signining into the {selectedCompany} CCQ as {accountName}({accountEmail}). 
+           <br/>
+           False Logs are subject to the USMA Honor Code
+           
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleConfirmationDialogueClose}>Disagree</Button>
-          <Button onClick={handleConfirmationDialogueClose}>Agree</Button>
+          <Button onClick={handleConfirmationDialogueClose}>Dismiss</Button>
+          <Button onClick={handleConfirmationDialogueClose}>Sign In</Button>
         </DialogActions>
       </Dialog>
 
