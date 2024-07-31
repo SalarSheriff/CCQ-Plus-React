@@ -4,24 +4,38 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 import React, { useEffect, useState } from 'react';
 
+
+//Transition for the dialogue modal
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
 function CompanySelectorPage({getLastLogForEachCompany}) {
 
 //The latest logs for each company
     const [lastLogs, setLastLogs] = useState([]);
 
 
-    //This will be used to track the state of the confirmation dialogue box that appears when a user clicks join in on a CCQ
-    const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+   
 
     //This will be used to track the company that the user has selected to sign in to. Whose button they clicked
     const [selectedCompany, setSelectedCompany] = useState(null);
 
-    //Transition for the dialogue modal
-    const Transition = React.forwardRef(function Transition(props, ref) {
-        return <Slide direction="up" ref={ref} {...props} />;
-      });
+    
       
-   
+
+    //This will be used to track if the dialogue box is open or not to confirm singing in
+      const [confirmationDialogueOpen, setConfirmationDialogueOpen] = React.useState(false);
+
+      const handleConfirmationDialogueOpen = () => {
+        setConfirmationDialogueOpen(true);
+      };
+    
+      const handleConfirmationDialogueClose = () => {
+       setConfirmationDialogueOpen(false);
+      };
+
+
+
 
     const regiments = [
         {
@@ -87,23 +101,18 @@ function CompanySelectorPage({getLastLogForEachCompany}) {
 
 
     
-    function handleConfirmationDialogueClose() {
-        setSelectedCompany(null);
-        setConfirmationDialogOpen(false);
-        
-    }
-
+    
 
     //This function will be called when a user clicks on a company to sign in
     //It will open a dialogue box asking if the user is sure they want to sign in
     //If the user clicks yes, it will call the sign in function and pass the company
     function handleSelectCompany(_company) {
 
-        alert(_company)
+        //alert(_company)
       
-        // setSelectedCompany(_company);
-        // setConfirmationDialogOpen(true);
+        setSelectedCompany(_company);
         
+setConfirmationDialogueOpen(true);
         
     }
 
@@ -165,26 +174,26 @@ function CompanySelectorPage({getLastLogForEachCompany}) {
             ))}
 
 
-
-            <Dialog 
-            open={confirmationDialogOpen}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleConfirmationDialogueClose}
-
-            >
-                
-                <DialogTitle>Sign in to the {selectedCompany} CCQ</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Are you sure you want to sign in to this CCQ?
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
+<Dialog
+        open={confirmationDialogueOpen}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleConfirmationDialogueClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Let Google help apps determine location. This means sending anonymous
+            location data to Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
           <Button onClick={handleConfirmationDialogueClose}>Disagree</Button>
           <Button onClick={handleConfirmationDialogueClose}>Agree</Button>
         </DialogActions>
-            </Dialog>
+      </Dialog>
+
         </Box>
     )
 }
