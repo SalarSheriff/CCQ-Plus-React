@@ -74,7 +74,7 @@ async function uploadLog(instance, accounts, action, company) {
 
   }
 
-  async function uploadPresencePatrol(instance, accounts, action, company, patrolTime) {
+  async function uploadPresencePatrol(instance, accounts, action, company, patrolTime, patrolComments) {
 
     
     const request = {
@@ -93,10 +93,11 @@ async function uploadLog(instance, accounts, action, company) {
       //Date stuff is done on the backend
       body: JSON.stringify({
         company: company,
-        message: "User " + accounts[0].username + " performed a presence patrol for " + (patrolTime/60) + " minutes",
+        message: "User " + accounts[0].username + " performed a presence patrol for " + (patrolTime/60) + " minutes\n" + "Comments: " + patrolComments,
         name: accounts[0].name, //This will be verified through token, but use this for now when tokens aren't being used
         action: action,
-        patrolTime: patrolTime
+        patrolTime: patrolTime,
+        
 
       })
     });

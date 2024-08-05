@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, Tab } from '@mui/material';
+import { Button, Tab, TextField } from '@mui/material';
 import {Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle, Slide } from "@mui/material";
 import { useMsal } from '@azure/msal-react';
 import {dataFetchRate, getLogs, uploadLog, uploadPresencePatrol} from '../backendAPICalls.js'
@@ -37,6 +37,7 @@ function CCQPage() {
     const [patrolTimer, setPatrolTimer] = useState(0);
     const [isPatrolling, setIsPatrolling] = useState(false);
 
+    const [patrolComments, setPatrolComments] = useState("");
 
     //This will be used to track if the data has been loaded or not. Controls displaying "<Circular Indeterminate/>"
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -115,11 +116,14 @@ function CCQPage() {
 
 
             //Upload Presence Patrol to server
-            uploadPresencePatrol(instance, accounts, "patrol", companyName, patrolTimer);
+            uploadPresencePatrol(instance, accounts, "patrol", companyName, patrolTimer, patrolComments);
 
             //Reset timer
             setPatrolTimer(0);
         }
+    }
+    function handlePatrolCommentsChange(event) {
+        setPatrolComments(event.target.value);
     }
     return(
 
@@ -196,6 +200,12 @@ function CCQPage() {
           <DialogContentText id="alert-dialog-slide-description">
            
            {dialogueMessage}
+
+            <br/>
+            {/* If closing a patrol display an input for a message too. */}
+           {isPatrolling && <><TextField onChange={handlePatrolCommentsChange} placeholder='Patrol Comments' value={patrolComments}></TextField></>}
+
+
           </DialogContentText>
         </DialogContent>
         <DialogActions>
