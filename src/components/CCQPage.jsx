@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,22 +8,34 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, Tab } from '@mui/material';
-
+import {Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle, Slide } from "@mui/material";
 import { useMsal } from '@azure/msal-react';
-import {getLogs, uploadLog} from '../backendAPICalls.js'
+import {dataFetchRate, getLogs, uploadLog} from '../backendAPICalls.js'
  
 
+//Transition for the dialogue modal
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
 
 //The page that displays the actual CCQ view
 
 
 function CCQPage() {
 
+    
     //Account information
     const { instance, accounts } = useMsal();
 
+    const navigate = useNavigate();
+
     const { companyName } = useParams();
     let [logs, setLogs] = useState([]);
+
+
+    const [dialogueOpen, setDialogueOpen] = React.useState(false);
+    const [dialogueTitle, setDialogueTitle] = React.useState("");
+    const [dialogueMessage, setDialogueMessage] = React.useState("");
 
 
     useEffect(()=> {
@@ -34,10 +46,33 @@ function CCQPage() {
             setLogs(data);
         }
         fetchData();
+        setInterval(fetchData, dataFetchRate);
     },[])
 
 
 
+
+    function handleDialogOpen(title, message) {
+        setDialogueTitle(title);
+        setDialogueMessage(message);
+        setDialogueOpen(true);
+    }
+
+    function handleDialogueCancel() {
+        setDialogueOpen(false);
+    }
+
+
+    //based on the current dialogue title and message, this function will handle the accept button
+    //Rather than having multiple functions and Dialog Objects for each dialogue, this function will handle all of them
+    function handleDialogueAccept() {
+
+        if(dialogueTitle === "Sign Out") {
+            uploadLog(instance, accounts, "relieved", companyName);
+            setDialogueOpen(false);
+            navigate("/");
+        }
+    }
     return(
 
 
@@ -74,8 +109,34 @@ function CCQPage() {
         </Table>
 
          </TableContainer>
-         <Button variant='contained' onClick={()=> {uploadLog(instance, accounts, "relieved", companyName)}}>Sign Out</Button>
-        
+         <Button variant='contained' onClick={()=> {
+            handleDialogOpen("Sign Out", "Are you sure you want to sign out?");
+           
+           
+    
+            }}>Sign Out</Button>
+
+
+        <Dialog
+        open={dialogueOpen}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleDialogueCancel}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{dialogueTitle}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+           
+           {dialogueMessage}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogueCancel}>Close</Button>
+          <Button onClick={handleDialogueAccept}>Ok</Button>
+        </DialogActions>
+      </Dialog>
+
         </>
     )
 }
