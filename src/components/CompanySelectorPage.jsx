@@ -4,7 +4,8 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
+import { uploadLog } from '../backendAPICalls.js'
 //Transition for the dialogue modal
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -13,9 +14,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
   
-function CompanySelectorPage({getLastLogForEachCompany, accountName, accountEmail}) {
+function CompanySelectorPage({getLastLogForEachCompany}) {
 
-
+    const { instance, accounts } = useMsal();
+//This has to be retrieved here rather than passed through App.jsx because if the user is not logged in, 
+//getting {accounts[0].name}{accounts[0].username} will throw an error
+//When this page is loaded a user has to be logged in
+    let accountName = accounts[0].name;
+    let accountEmail = accounts[0].username;
 
 
 const navigate = useNavigate(); 
@@ -45,6 +51,10 @@ const navigate = useNavigate();
 
       function handleConfirmationDialogueAccept() {
 
+        //upload to database
+
+        
+        uploadLog(instance, accounts,"assumes", selectedCompany);//backendAPICalls.js
 
         navigate("/ccq/" + selectedCompany);
       }

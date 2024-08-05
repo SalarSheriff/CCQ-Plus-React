@@ -77,7 +77,8 @@ export default function App() {
 
                 <AuthenticatedTemplate>
                   <CCQPlusAppBar />
-                  <CompanySelectorPage getLastLogForEachCompany={getLastLogForEachCompany} accountName={accounts[0].name} accountEmail={accounts[0].username} />
+
+                  <CompanySelectorPage getLastLogForEachCompany={getLastLogForEachCompany}/> 
                   <SignOutButton />
                 </AuthenticatedTemplate>
 
