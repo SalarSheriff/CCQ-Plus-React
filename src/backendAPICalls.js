@@ -74,6 +74,41 @@ async function uploadLog(instance, accounts, action, company) {
 
   }
 
+  async function uploadPresencePatrol(instance, accounts, action, company, patrolTime) {
+
+    
+    const request = {
+      scopes: ["User.Read"],
+      account: accounts[0]
+    };
+    const response = await instance.acquireTokenSilent(request);
+
+    const nodeCall = await fetch('http://localhost:4000/api/uploadPresencePatrol', {
+      method: 'POST',
+      headers: {
+        'Authorization': `${response.accessToken}`,
+        'Content-Type': 'application/json'
+      },
+
+      //Date stuff is done on the backend
+      body: JSON.stringify({
+        company: company,
+        message: "User " + accounts[0].username + " performed a presence patrol for " + (patrolTime/60) + " minutes",
+        name: accounts[0].name, //This will be verified through token, but use this for now when tokens aren't being used
+        action: action,
+        patrolTime: patrolTime
+
+      })
+    });
+
+
+
+
+  }
+
+
+
+
   async function getLogs(instance, accounts, company) {
 
       
@@ -93,4 +128,4 @@ async function uploadLog(instance, accounts, action, company) {
       return data;
   }
 
-  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, dataFetchRate };
+  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, dataFetchRate };

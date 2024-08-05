@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import { Button, Tab } from '@mui/material';
 import {Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle, Slide } from "@mui/material";
 import { useMsal } from '@azure/msal-react';
-import {dataFetchRate, getLogs, uploadLog} from '../backendAPICalls.js'
+import {dataFetchRate, getLogs, uploadLog, uploadPresencePatrol} from '../backendAPICalls.js'
 import CircularProgress from '@mui/material/CircularProgress';
 
 //Transition for the dialogue modal
@@ -33,6 +33,11 @@ function CCQPage() {
     let [logs, setLogs] = useState([]);
 
 
+    //State for managing presence patrol timer
+    const [patrolTimer, setPatrolTimer] = useState(0);
+    const [isPatrolling, setIsPatrolling] = useState(false);
+
+
     //This will be used to track if the data has been loaded or not. Controls displaying "<Circular Indeterminate/>"
     const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -52,6 +57,20 @@ function CCQPage() {
         setInterval(fetchData, dataFetchRate);
     },[])
 
+
+    //Manage the patrol timer
+    useEffect(() => {
+        let timer;
+        if (isPatrolling) {
+            timer = setInterval(() => {
+                setPatrolTimer(prevTime => prevTime + 1);
+            }, 1000); // Increment every second
+        }
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, [isPatrolling]);
 
 
 
@@ -75,14 +94,42 @@ function CCQPage() {
             setDialogueOpen(false);
             navigate("/");
         }
+        else if(dialogueTitle === "Presence Patrol") {
+           
+          
+            //Begin a patrol
+                setIsPatrolling(true);
+                setDialogueOpen(false);
+
+               
+         
+           
+               
+            
+            
+        }
+        else if(dialogueTitle === "End Presence Patrol") {
+            setIsPatrolling(false);
+            
+            setDialogueOpen(false)
+
+
+            //Upload Presence Patrol to server
+            uploadPresencePatrol(instance, accounts, "patrol", companyName, patrolTimer);
+
+            //Reset timer
+            setPatrolTimer(0);
+        }
     }
     return(
 
 
         <>
-        
+        {/* If the data ins't loaded, display a circular progress bar */}
         {!dataLoaded && <CircularProgress/>}
        
+
+       {/* If the data is loaded then display the table */}
         {dataLoaded && <>
         
         
@@ -117,6 +164,18 @@ function CCQPage() {
         </Table>
 
          </TableContainer>
+
+         <Button variant='contained' color='success' onClick={()=> { 
+
+//If the button is clicked begin a patrol. If a patrol is already being conducted, end the patrol
+            if(!isPatrolling) {
+                handleDialogOpen("Presence Patrol", "Begin presence patrol for " + companyName + "?");
+            }
+           else {
+            handleDialogOpen("End Presence Patrol", "End presence patrol for " + companyName + "?");
+           }
+
+         }} > {isPatrolling ? "Patroling for: " +  patrolTimer + " seconds": "Begin Presence Patrol" }</Button>
          <Button variant='contained' onClick={()=> {
             handleDialogOpen("Sign Out", "Are you sure you want to sign out?");
            
