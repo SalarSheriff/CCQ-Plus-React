@@ -1,7 +1,7 @@
 //instance and accounts have to be passed as parameters and cannot be used here because they are react hooks
 
-
-
+//How often data is called from the backend
+let dataFetchRate = 2000
 
 //Base function to send authentication to server
 async function callNode(instance, accounts) {
@@ -20,6 +20,25 @@ async function callNode(instance, accounts) {
         'Authorization': `${response.accessToken}`
       }
     });
+
+  }
+  //Gets the latest logs for each company so that the company selector can display the latest log for each company
+  async function getLastLogForEachCompany(instance, accounts) {
+    //Get the authentication token
+    const request = {
+      scopes: ["User.Read"],
+      account: accounts[0]
+    };
+    const response = await instance.acquireTokenSilent(request);
+
+    const nodeCall = await fetch('http://localhost:4000/api/getLastLogForEachCompany', {
+      headers: {
+        "Authorization": `${response.accessToken}`// Bearer prefix is added server side
+      }
+    });
+
+    const data = await nodeCall.json();
+    return data;
 
   }
 
@@ -55,4 +74,23 @@ async function uploadLog(instance, accounts, action, company) {
 
   }
 
-  export { callNode, uploadLog };
+  async function getLogs(instance, accounts, company) {
+
+      
+      const request = {
+        scopes: ["User.Read"],
+        account: accounts[0]
+      };
+      const response = await instance.acquireTokenSilent(request);
+  
+      const nodeCall = await fetch('http://localhost:4000/api/getLogs/'+company, {
+        headers: {
+          "Authorization": `${response.accessToken}`// Bearer prefix is added server side
+        }
+      });
+  
+      const data = await nodeCall.json();
+      return data;
+  }
+
+  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, dataFetchRate };

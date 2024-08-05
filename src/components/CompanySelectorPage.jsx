@@ -5,7 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
-import { uploadLog } from '../backendAPICalls.js'
+import { uploadLog, getLastLogForEachCompany, dataFetchRate } from '../backendAPICalls.js'
 //Transition for the dialogue modal
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -14,7 +14,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
   
-function CompanySelectorPage({getLastLogForEachCompany}) {
+function CompanySelectorPage() {
 
     const { instance, accounts } = useMsal();
 //This has to be retrieved here rather than passed through App.jsx because if the user is not logged in, 
@@ -149,13 +149,16 @@ setConfirmationDialogueOpen(true);
         const fetchLastLogs = async () => { 
 
 
-            const logs = await getLastLogForEachCompany();
+            const logs = await getLastLogForEachCompany(instance, accounts);//backendAPICalls.js
             console.log(logs)
             setLastLogs(logs);
            console.log( logs.find(log=>log.company==="I1"))
         }
 
         fetchLastLogs();
+
+        setInterval(fetchLastLogs, dataFetchRate); //updates data every 2 seconds
+    
         
     },[] )
 
@@ -187,7 +190,7 @@ setConfirmationDialogueOpen(true);
 
                            {/* Access the data by setting company to to company.name */}
 
-                            {lastLogs.length > 0 && lastLogs.find(log=>log.company===company.name) ? <CompanyDisplayPaper handleSelectCompany={handleSelectCompany} company={company.name} mascot={company.mascot} buttonText={getButtonDisplayText(lastLogs.find(log=>log.company===company.name))}  /> :<CompanyDisplayPaper handleSelectCompany={handleSelectCompany} company={company.name} mascot={company.mascot} buttonText="Sign In" /> }
+                            {lastLogs.length > 0 && (lastLogs.find(log=>log.company===company.name) && lastLogs.find(log=>log.company===company.name).action === "assumes")? <CompanyDisplayPaper handleSelectCompany={handleSelectCompany} company={company.name} mascot={company.mascot} buttonText={getButtonDisplayText(lastLogs.find(log=>log.company===company.name))}  /> :<CompanyDisplayPaper handleSelectCompany={handleSelectCompany} company={company.name} mascot={company.mascot} buttonText="Sign In" /> }
                
                             
                             

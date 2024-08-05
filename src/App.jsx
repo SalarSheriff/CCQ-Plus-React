@@ -34,25 +34,6 @@ export default function App() {
   }
 
 
-  //Gets the latest logs for each company so that the company selector can display the latest log for each company
-  async function getLastLogForEachCompany() {
-    //Get the authentication token
-    const request = {
-      scopes: ["User.Read"],
-      account: accounts[0]
-    };
-    const response = await instance.acquireTokenSilent(request);
-
-    const nodeCall = await fetch('http://localhost:4000/api/getLastLogForEachCompany', {
-      headers: {
-        "Authorization": `${response.accessToken}`// Bearer prefix is added server side
-      }
-    });
-
-    const data = await nodeCall.json();
-    return data;
-
-  }
 
 
 
@@ -78,7 +59,7 @@ export default function App() {
                 <AuthenticatedTemplate>
                   <CCQPlusAppBar />
 
-                  <CompanySelectorPage getLastLogForEachCompany={getLastLogForEachCompany}/> 
+                  <CompanySelectorPage /> 
                   <SignOutButton />
                 </AuthenticatedTemplate>
 
