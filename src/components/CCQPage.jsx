@@ -11,7 +11,7 @@ import { Button, Tab } from '@mui/material';
 import {Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle, Slide } from "@mui/material";
 import { useMsal } from '@azure/msal-react';
 import {dataFetchRate, getLogs, uploadLog} from '../backendAPICalls.js'
- 
+import CircularProgress from '@mui/material/CircularProgress';
 
 //Transition for the dialogue modal
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -33,6 +33,9 @@ function CCQPage() {
     let [logs, setLogs] = useState([]);
 
 
+    //This will be used to track if the data has been loaded or not. Controls displaying "<Circular Indeterminate/>"
+    const [dataLoaded, setDataLoaded] = useState(false);
+
     const [dialogueOpen, setDialogueOpen] = React.useState(false);
     const [dialogueTitle, setDialogueTitle] = React.useState("");
     const [dialogueMessage, setDialogueMessage] = React.useState("");
@@ -45,7 +48,7 @@ function CCQPage() {
             let data = await getLogs(instance, accounts, companyName);
             setLogs(data);
         }
-        fetchData();
+        fetchData().then(()=> { setDataLoaded(true)} );
         setInterval(fetchData, dataFetchRate);
     },[])
 
@@ -76,8 +79,13 @@ function CCQPage() {
     return(
 
 
-
         <>
+        
+        {!dataLoaded && <CircularProgress/>}
+       
+        {dataLoaded && <>
+        
+        
          CCQ view page to be implemented
          You are on the {companyName} page
 
@@ -137,6 +145,7 @@ function CCQPage() {
         </DialogActions>
       </Dialog>
 
+        </>}
         </>
     )
 }
