@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -46,6 +46,21 @@ function CCQPage() {
     const [dialogueTitle, setDialogueTitle] = React.useState("");
     const [dialogueMessage, setDialogueMessage] = React.useState("");
 
+
+    //Reference to the table container so that we can access its scroll
+    const tableContainerRef = useRef(null);
+    const [previousLogs, setPreviousLogs] = useState([]); // Used to check if logs have changed, this ensures we don't scroll down to the bottom of the table if the user has scrolled up and the data is refreshed with no changes
+  
+
+    //Scroll to the bottom of the table when new logs are added and when the table is loaded
+      useEffect(() => {
+        const container = tableContainerRef.current;
+        if (container && (JSON.stringify(previousLogs) !== JSON.stringify(logs))) {
+        setPreviousLogs(logs);
+          container.scrollTop = container.scrollHeight;
+        }
+      }, [logs]);
+    
 
     useEffect(()=> {
         async function fetchData() { 
@@ -140,9 +155,15 @@ function CCQPage() {
          CCQ view page to be implemented
          You are on the {companyName} page
 
-         <TableContainer component={Paper}>
+         <TableContainer sx={{
 
-        <Table sx={{ minWidth: 650 }}>
+width: '100%',
+height: '50%',
+
+overflowY: 'auto'
+         }} component={Paper} ref={tableContainerRef}>
+
+        <Table stickyHeader>
 
             <TableHead>
                 <TableRow>
