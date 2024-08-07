@@ -5,6 +5,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Typography } from '@mui/material';
 
 function LogDisplayTable({ logs, tableContainerRef }) {
 
@@ -28,21 +29,22 @@ function LogDisplayTable({ logs, tableContainerRef }) {
 
                     <TableHead>
                         <TableRow>
-                            <TableCell>Time In</TableCell>
-                            <TableCell>Time Out</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Message</TableCell>
-                            <TableCell>Action</TableCell>
+                            <TableCell><Typography variant='h6'>Time In</Typography> </TableCell>
+                            <TableCell><Typography variant='h6'>Time Out</Typography></TableCell>
+                            <TableCell><Typography variant='h6'>Name</Typography></TableCell>
+                            <TableCell><Typography variant='h6'>Message</Typography></TableCell>
+                            <TableCell><Typography variant='h6'>Action</Typography></TableCell>
+                            
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {logs.map((log) => (
                             <TableRow key={log.id}>
-                                <TableCell>{log.time}</TableCell>
-                                <TableCell>{log.timeOut}</TableCell>
-                                <TableCell>{log.name}</TableCell>
-                                <TableCell>{log.message}</TableCell>
-                                <TableCell>{log.action}</TableCell>
+                                <TableCell><Typography variant='body1'>{log.time}</Typography> </TableCell>
+                                <TableCell><Typography variant='body1'>{log.timeOut}</Typography> </TableCell>
+                                <TableCell><Typography variant='body1'>{log.name}</Typography> </TableCell>
+                                <TableCell><Typography variant='body1'>{log.message}</Typography> </TableCell>
+                                <TableCell><Typography variant='body1'>{log.action}</Typography> </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

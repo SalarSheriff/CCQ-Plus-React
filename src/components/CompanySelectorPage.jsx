@@ -190,7 +190,8 @@ setConfirmationDialogueOpen(true);
 
                            {/* Access the data by setting company to to company.name */}
 
-                            {lastLogs.length > 0 && (lastLogs.find(log=>log.company===company.name) && lastLogs.find(log=>log.company===company.name).action === "assumes")? <CompanyDisplayPaper handleSelectCompany={handleSelectCompany} company={company.name} mascot={company.mascot} buttonText={getButtonDisplayText(lastLogs.find(log=>log.company===company.name))}  /> :<CompanyDisplayPaper handleSelectCompany={handleSelectCompany} company={company.name} mascot={company.mascot} buttonText="Sign In" /> }
+{/* != relieved rather than === assumes, because if a presence patrol is the last message or there is another message it still means someone is signed in */}
+                            {lastLogs.length > 0 && (lastLogs.find(log=>log.company===company.name) && lastLogs.find(log=>log.company===company.name).action != "relieved")? <CompanyDisplayPaper handleSelectCompany={handleSelectCompany} company={company.name} mascot={company.mascot} buttonText={getButtonDisplayText(lastLogs.find(log=>log.company===company.name))}  /> :<CompanyDisplayPaper handleSelectCompany={handleSelectCompany} company={company.name} mascot={company.mascot} buttonText="Sign In" /> }
                
                             
                             
@@ -209,9 +210,12 @@ setConfirmationDialogueOpen(true);
         keepMounted
         onClose={handleConfirmationDialogueClose}
         aria-describedby="alert-dialog-slide-description"
+        
       >
-        <DialogTitle>Sign Into the {selectedCompany} CCQ</DialogTitle>
-        <DialogContent>
+
+      
+        <DialogTitle >Sign Into the {selectedCompany} CCQ</DialogTitle>
+        <DialogContent >
           <DialogContentText id="alert-dialog-slide-description">
            Confirm signing into the {selectedCompany} CCQ as {accountName}({accountEmail}). 
            <br/>

@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 let theme = createTheme({
     palette: {
@@ -26,7 +26,7 @@ let theme = createTheme({
         fontFamily: 'Roboto, sans-serif',
     },
 });
-
+theme = responsiveFontSizes(theme);
 // Adding the rest here so we can access the palette variables
 theme = createTheme(theme, {
     components: {

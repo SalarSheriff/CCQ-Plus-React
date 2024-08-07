@@ -50,10 +50,6 @@ function CompanyDisplayPaper({ company, mascot, buttonText, handleSelectCompany 
                 variant="h4"
                 sx={{
                     
-                    fontFamily: "Archivo Black",
-                    fontWeight: 400,
-                    fontStyle: "normal",
-                    fontSize: "2rem",
                     
                 }}>{company + " " + mascot}</Typography>
                 <Button onClick={()=>handleSelectCompany(company)} variant='contained' color={buttonText === "Sign In" ? "primary" : "warning"} endIcon={<PlayCircleIcon
