@@ -128,5 +128,24 @@ async function uploadLog(instance, accounts, action, company) {
       const data = await nodeCall.json();
       return data;
   }
+async function getLogsInRange(instance, accounts, company, date1, date2) {
 
-  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, dataFetchRate };
+      
+      const request = {
+        scopes: ["User.Read"],
+        account: accounts[0]
+      };
+      const response = await instance.acquireTokenSilent(request);
+  
+      const nodeCall = await fetch('http://localhost:4000/api/getLogsInRange/'+company+'/'+date1+'/'+date2, {
+        headers: {
+          "Authorization": `${response.accessToken}`// Bearer prefix is added server side
+        }
+      });
+  
+      const data = await nodeCall.json();
+      return data;
+}
+
+
+  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, dataFetchRate };
