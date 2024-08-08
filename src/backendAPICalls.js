@@ -3,6 +3,9 @@
 //How often data is called from the backend
 let dataFetchRate = 2000
 
+let apiEndpoint =   'http://20.102.35.245:4000/api/'   //'http://localhost:4000/api/'
+
+
 //Base function to send authentication to server
 async function callNode(instance, accounts) {
 
@@ -15,7 +18,7 @@ async function callNode(instance, accounts) {
 
     //console.log(response.accessToken)
 
-    const nodeCall = await fetch('http://localhost:4000/api/protected', {
+    const nodeCall = await fetch( apiEndpoint + 'protected', {
       headers: {
         'Authorization': `${response.accessToken}`
       }
@@ -31,7 +34,7 @@ async function callNode(instance, accounts) {
     };
     const response = await instance.acquireTokenSilent(request);
 
-    const nodeCall = await fetch('http://localhost:4000/api/getLastLogForEachCompany', {
+    const nodeCall = await fetch( apiEndpoint+'getLastLogForEachCompany', {
       headers: {
         "Authorization": `${response.accessToken}`// Bearer prefix is added server side
       }
@@ -52,7 +55,7 @@ async function uploadLog(instance, accounts, action, company) {
     };
     const response = await instance.acquireTokenSilent(request);
 
-    const nodeCall = await fetch('http://localhost:4000/api/uploadLog', {
+    const nodeCall = await fetch(apiEndpoint+'uploadLog', {
       method: 'POST',
       headers: {
         'Authorization': `${response.accessToken}`,
@@ -83,7 +86,7 @@ async function uploadLog(instance, accounts, action, company) {
     };
     const response = await instance.acquireTokenSilent(request);
 
-    const nodeCall = await fetch('http://localhost:4000/api/uploadPresencePatrol', {
+    const nodeCall = await fetch(apiEndpoint + 'uploadPresencePatrol', {
       method: 'POST',
       headers: {
         'Authorization': `${response.accessToken}`,
@@ -119,7 +122,7 @@ async function uploadLog(instance, accounts, action, company) {
       };
       const response = await instance.acquireTokenSilent(request);
   
-      const nodeCall = await fetch('http://localhost:4000/api/getLogs/'+company, {
+      const nodeCall = await fetch(apiEndpoint + 'getLogs/'+company, {
         headers: {
           "Authorization": `${response.accessToken}`// Bearer prefix is added server side
         }
@@ -137,7 +140,7 @@ async function getLogsInRange(instance, accounts, company, date1, date2) {
       };
       const response = await instance.acquireTokenSilent(request);
   
-      const nodeCall = await fetch('http://localhost:4000/api/getLogsInRange/'+company+'/'+date1+'/'+date2, {
+      const nodeCall = await fetch(apiEndpoint + 'getLogsInRange/'+company+'/'+date1+'/'+date2, {
         headers: {
           "Authorization": `${response.accessToken}`// Bearer prefix is added server side
         }
