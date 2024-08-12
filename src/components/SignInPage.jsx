@@ -40,7 +40,7 @@ fontFamily: 'Archivo Black, sans-serif',
 fontWeight: 400,
 fontStyle: 'normal',
 color: 'white',
-fontSize: '10rem',
+fontSize: '5rem',
 }}>CCQ PLUS</Typography>
 
                 </Box>

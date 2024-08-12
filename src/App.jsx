@@ -10,6 +10,7 @@ import { Box } from '@mui/material';
 import CompanySelectorPage from './components/CompanySelectorPage';
 import CCQPlusAppBar from './components/CCQPlusAppBar';
 import CCQPage from './components/CCQPage';
+import AdminPage from './components/AdminPage';
 export default function App() {
 
   const { instance, accounts } = useMsal();
@@ -94,6 +95,31 @@ You are not signed in to CCQ Plus. Please go to / to sign in.
 
             </>
           } />
+          <Route path='/adminview' element={
+
+<>
+  <Box sx={{
+    width: '100%',
+    height: '100vh',
+
+    overflow: 'hidden', // Disable scrolling
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+  <AuthenticatedTemplate>
+    <CCQPlusAppBar />
+   <AdminPage/>
+  </AuthenticatedTemplate>
+  <UnauthenticatedTemplate>
+
+You are not signed in to CCQ Plus. Please go to / to sign in.
+    
+  </UnauthenticatedTemplate>
+  </Box>
+
+</>
+} />
+
 
 
 

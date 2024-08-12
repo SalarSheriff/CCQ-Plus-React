@@ -5,6 +5,70 @@ let dataFetchRate = import.meta.env.VITE_DATA_FETCH_RATE
 
 let apiEndpoint =   import.meta.env.VITE_API_ENDPOINT// 'http://localhost:4000/api/' //container instance ip:port
 
+//Data used to generate backenddata
+const regiments = [
+  {
+      id: 1,
+      name: '1st Regiment',
+      motto: 'First and Proud',
+      companies: [
+          {
+              id: 1,
+              name: 'A1',
+              mascot: "Assassins",
+              slogan: "A1 SLOGAN!"
+          },
+          {
+              id: 2,
+              name: 'B1',
+              mascot: "Barbarians",
+              slogan: "B1 SLOGAN!"
+          },
+          {
+              id: 3,
+              name: 'C1',
+              mascot: "Celts",
+              slogan: "C1 SLOGAN!"
+          },
+          {
+              id: 4,
+              name: 'D1',
+              mascot: "Ducks",
+              slogan: "D1 SLOGAN!"
+          },
+          {
+              id: 5,
+              name: 'E1',
+              mascot: "Vikings",
+              slogan: "E1 SLOGAN!"
+          },
+          {
+              id: 6,
+              name: 'F1',
+              mascot: "Firehouse",
+              slogan: "F1 SLOGAN!"
+          },
+          {
+              id: 7,
+              name: 'G1',
+              mascot: "Greeks",
+              slogan: "G1 SLOGAN!"
+          }, {
+              id: 8,
+              name: 'H1',
+              mascot: "Hogs",
+              slogan: "H1 SLOGAN!"
+          }, {
+              id: 9,
+              name: 'I1',
+              mascot: "Iron Horses",
+              slogan: "Rum Em Down!"
+          }
+      ]
+  }
+]
+
+
 
 //Base function to send authentication to server
 async function callNode(instance, accounts) {
@@ -178,4 +242,5 @@ async function getLogsInRange(instance, accounts, company, date1, date2) {
 }
 
 
-  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, dataFetchRate };
+
+  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, regiments, dataFetchRate };

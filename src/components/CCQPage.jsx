@@ -174,7 +174,7 @@ function CCQPage() {
           marginRight: '10%',
           textAlign: 'center',
          }}>
-<Typography variant='h1'>{companyName} CCQ</Typography>
+<Typography variant='h2'>{companyName} CCQ</Typography>
          
 
          <LogDisplayTable logs={logs} tableContainerRef={tableContainerRef}/>
