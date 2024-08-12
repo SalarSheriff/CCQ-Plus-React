@@ -10,6 +10,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import { DatePicker } from "@mui/x-date-pickers";
 function AdminPage() {
 
     //Account information
@@ -28,6 +29,12 @@ function AdminPage() {
     const tableContainerRef = useRef(null);
     const [previousLogs, setPreviousLogs] = useState([]); // Used to check if logs have changed, this ensures we don't scroll down to the bottom of the table if the user has scrolled up and the data is refreshed with no changes
 
+
+
+    const [startDate, setStartDate] = useState(dayjs());
+    const [endDate, setEndDate] = useState(dayjs().add(1, "day"));
+
+
     //Scroll to the bottom of the table when new logs are added and when the table is loaded
     useEffect(() => {
         const container = tableContainerRef.current;
@@ -45,18 +52,25 @@ function AdminPage() {
         async function fetchData() {
 
 
-            let data = await getLogsInRange(instance, accounts, companyName, dayjs().format('YYYYMMDD'), dayjs().add(1, "day").format("YYYYMMDD")); //only load current day's logs
+            let data = await getLogsInRange(instance, accounts, companyName, startDate.format("YYYYMMDD"), endDate.add(1, "day").format("YYYYMMDD")); //only load current day's logs
             setLogs(data);
         }
         fetchData().then(() => { setDataLoaded(true) });
-        
-    }, [companyName])
+
+    }, [companyName, startDate, endDate]);
 
 
     function handleCompanySelectChange(event) {
-       
+
         setCompanyName(event.target.value);
     }
+    function handleStartDateChange(date) {
+        setStartDate(date);
+    }
+    function handleEndDateChange(date) {
+        setEndDate(date);
+    }
+
 
     return (
 
@@ -77,9 +91,12 @@ function AdminPage() {
                     ))}
 
                 </Select>
+
+                <DatePicker onChange={handleStartDateChange} value={startDate} label="Start Date" />
+                <DatePicker onChange={handleEndDateChange} value={endDate} label="End Date" />
                 <LogDisplayTable logs={logs} tableContainerRef={tableContainerRef} />
             </>}
-           
+
         </>
     )
 
