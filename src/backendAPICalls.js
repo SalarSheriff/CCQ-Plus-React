@@ -160,7 +160,7 @@ async function uploadLog(instance, accounts, action, company) {
   }
 async function getLogsInRange(instance, accounts, company, date1, date2) {
 
-      
+ 
       const request = {
         scopes: ["User.Read"],
         account: accounts[0]
@@ -173,7 +173,7 @@ async function getLogsInRange(instance, accounts, company, date1, date2) {
         }
       });
   
-      const data = await nodeCall.json();
+      const data = await nodeCall.json().catch((error) => { console.log(error)});
       return data;
 }
 

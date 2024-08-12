@@ -68,7 +68,7 @@ function CCQPage() {
         async function fetchData() { 
 
 
-            let data = await getLogsInRange(instance, accounts, companyName, dayjs().format('YYYYMMDD'), dayjs().format('YYYYMMDD')); //only load current day's logs
+            let data = await getLogsInRange(instance, accounts, companyName, dayjs().format('YYYYMMDD'), dayjs().add(1, "day").format("YYYYMMDD")); //only load current day's logs
             setLogs(data);
         }
         fetchData().then(()=> { setDataLoaded(true)} );
