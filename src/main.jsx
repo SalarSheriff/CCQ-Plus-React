@@ -7,7 +7,7 @@ import { MsalProvider } from '@azure/msal-react';
 import { msalConfig } from './authConfig';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from './theme.js'
+import { theme, theme2 } from './theme.js';
 /**
  * Initialize a PublicClientApplication instance which is provided to the MsalProvider component
  * We recommend initializing this outside of your root component to ensure it is not re-initialized on re-renders

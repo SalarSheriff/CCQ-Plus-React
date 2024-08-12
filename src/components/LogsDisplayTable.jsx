@@ -20,7 +20,7 @@ function LogDisplayTable({ logs, tableContainerRef }) {
             <TableContainer sx={{
 
                 width: '100%',
-                height: '50%',
+                height: 500,
 
                 overflowY: 'auto'
             }} component={Paper} ref={tableContainerRef}>

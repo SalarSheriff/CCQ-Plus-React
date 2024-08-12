@@ -47,11 +47,11 @@ function CCQPlusAppBar() {
                     open={open}
         onClose={handleMenuClose}
                     >
-<MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+<MenuItem onClick={handleSignOut}> <Typography variant="h6">Sign Out</Typography> </MenuItem>
 
                     </Menu>
 
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>CCQ Plus</Typography>
+                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>CCQ Plus</Typography>
 
                     <Tooltip title="Manage Profile">
 

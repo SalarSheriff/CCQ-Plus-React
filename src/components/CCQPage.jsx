@@ -7,10 +7,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, Tab, TextField } from '@mui/material';
+import { Button,Box, Tab, TextField, Typography } from '@mui/material';
 import {Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle, Slide } from "@mui/material";
 import { useMsal } from '@azure/msal-react';
-import {dataFetchRate, getLogs, uploadLog, uploadPresencePatrol, getLogsInRange} from '../backendAPICalls.js'
+import {dataFetchRate, getLogs, uploadLog, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage} from '../backendAPICalls.js'
 import CircularProgress from '@mui/material/CircularProgress';
 import LogDisplayTable from './LogsDisplayTable.jsx';
 import dayjs from 'dayjs';
@@ -47,6 +47,7 @@ function CCQPage() {
     const [dialogueTitle, setDialogueTitle] = React.useState("");
     const [dialogueMessage, setDialogueMessage] = React.useState("");
 
+    const [specialMessageComments, setSpecialMessageComments] = useState("");
 
     //Reference to the table container so that we can access its scroll
     const tableContainerRef = useRef(null);
@@ -137,10 +138,23 @@ function CCQPage() {
             //Reset timer
             setPatrolTimer(0);
         }
+        else if(dialogueTitle === "Special Message") { 
+
+
+          uploadSpecialMessage(instance, accounts, "special message", companyName, specialMessageComments);
+          setDialogueOpen(false);
+          setSpecialMessageComments("");
+        }
     }
     function handlePatrolCommentsChange(event) {
         setPatrolComments(event.target.value);
     }
+    function handleSpecialMessageCommentsChange(event) { 
+
+
+        setSpecialMessageComments(event.target.value);
+    }
+
     return(
 
 
@@ -153,10 +167,19 @@ function CCQPage() {
         {dataLoaded && <>
         
         
-         CCQ view page to be implemented
-         You are on the {companyName} page
+         <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          marginLeft: '10%',
+          marginRight: '10%',
+          textAlign: 'center',
+         }}>
+<Typography variant='h1'>{companyName} CCQ</Typography>
+         
 
          <LogDisplayTable logs={logs} tableContainerRef={tableContainerRef}/>
+
+
 
          <Button variant='contained' color='success' onClick={()=> { 
 
@@ -169,13 +192,32 @@ function CCQPage() {
            }
 
          }} > {isPatrolling ? "Patroling for: " +  patrolTimer + " seconds": "Begin Presence Patrol" }</Button>
+
+
+
+
+<Box sx={{
+  display: 'flex',
+  flexDirection: 'row',
+  gap:'2'
+}}>
+<TextField onChange={handleSpecialMessageCommentsChange} value={specialMessageComments} placeholder='Special Message'></TextField>
+
+
+<Button variant='contained' color='warning' onClick={()=> { 
+
+    handleDialogOpen("Special Message", "Send special message to " + companyName + "?");
+
+} }>Send Special Message</Button>
+</Box>
+        
          <Button variant='contained' onClick={()=> {
             handleDialogOpen("Sign Out", "Are you sure you want to sign out?");
            
            
     
             }}>Sign Out</Button>
-
+</Box>
 
         <Dialog
         open={dialogueOpen}
@@ -184,11 +226,12 @@ function CCQPage() {
         onClose={handleDialogueCancel}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{dialogueTitle}</DialogTitle>
+        <DialogTitle>{dialogueTitle} </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
            
            {dialogueMessage}
+          
 
             <br/>
             {/* If closing a patrol display an input for a message too. */}

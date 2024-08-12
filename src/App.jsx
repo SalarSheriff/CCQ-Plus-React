@@ -60,7 +60,7 @@ export default function App() {
                   <CCQPlusAppBar />
 
                   <CompanySelectorPage /> 
-                  <SignOutButton />
+                 
                 </AuthenticatedTemplate>
 
                 <UnauthenticatedTemplate>
@@ -82,6 +82,7 @@ export default function App() {
                 flexDirection: 'column',
               }}>
               <AuthenticatedTemplate>
+                <CCQPlusAppBar />
                <CCQPage/>
               </AuthenticatedTemplate>
               <UnauthenticatedTemplate>

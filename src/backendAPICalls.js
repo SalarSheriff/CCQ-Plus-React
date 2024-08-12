@@ -1,9 +1,9 @@
 //instance and accounts have to be passed as parameters and cannot be used here because they are react hooks
 
 //How often data is called from the backend
-let dataFetchRate = 2000
+let dataFetchRate = import.meta.env.VITE_DATA_FETCH_RATE
 
-let apiEndpoint =   'http://20.102.35.245:4000/api/'   //'http://localhost:4000/api/'
+let apiEndpoint =   import.meta.env.VITE_API_ENDPOINT// 'http://localhost:4000/api/' //container instance ip:port
 
 
 //Base function to send authentication to server
@@ -112,7 +112,34 @@ async function uploadLog(instance, accounts, action, company) {
 
 
 
+  async function uploadSpecialMessage(instance, accounts, action, company, specialMessageComments) {
 
+    
+    const request = {
+      scopes: ["User.Read"],
+      account: accounts[0]
+    };
+    const response = await instance.acquireTokenSilent(request);
+
+    const nodeCall = await fetch(apiEndpoint + 'uploadLog', {
+      method: 'POST',
+      headers: {
+        'Authorization': `${response.accessToken}`,
+        'Content-Type': 'application/json'
+      },
+
+      //Date stuff is done on the backend
+      body: JSON.stringify({
+        company: company,
+        message: specialMessageComments,
+        name: accounts[0].name, //This will be verified through token, but use this for now when tokens aren't being used
+        action: "special message",
+        specialMessageComments: specialMessageComments
+
+      })
+    });
+
+  }
   async function getLogs(instance, accounts, company) {
 
       
@@ -151,4 +178,4 @@ async function getLogsInRange(instance, accounts, company, date1, date2) {
 }
 
 
-  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, dataFetchRate };
+  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, dataFetchRate };

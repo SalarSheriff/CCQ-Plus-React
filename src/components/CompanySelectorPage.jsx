@@ -185,7 +185,7 @@ setConfirmationDialogueOpen(true);
                 <Grid container spacing={'5%'}>
 
                     {regiment.companies.map((company) => (
-                        <Grid xs={12} sm={12} lg={6} xl={3}>
+                        <Grid xs={12} sm={12} lg={4} xl={4}>
                            
 
                            {/* Access the data by setting company to to company.name */}

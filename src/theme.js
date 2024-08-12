@@ -26,9 +26,31 @@ let theme = createTheme({
         fontFamily: 'Roboto, sans-serif',
     },
 });
-theme = responsiveFontSizes(theme);
+// theme = responsiveFontSizes(theme);
 // Adding the rest here so we can access the palette variables
 theme = createTheme(theme, {
+    typography: {
+        h6: {
+            // Media query for screen widths larger than 600px
+            '@media (min-width:200px)': {
+                fontSize: '0.4rem', // Adjust font size for larger screens
+            },
+             // Media query for screen widths larger than 600px
+             '@media (min-width:500px)': {
+                fontSize: '1.1rem', // Adjust font size for larger screens
+            },
+        },
+        body1: {
+            // Media query for screen widths larger than 600px
+            '@media (min-width:200px)': {
+                fontSize: '0.4rem', // Adjust font size for larger screens
+            },
+             // Media query for screen widths larger than 600px
+             '@media (min-width:500px)': {
+                fontSize: '0.9rem', // Adjust font size for larger screens
+            },
+        }
+    },
     components: {
         MuiTableRow: {
             styleOverrides: {
@@ -41,5 +63,64 @@ theme = createTheme(theme, {
         },
     },
 });
+let theme2 = createTheme({
+    palette: {
+        primary: {
+            main: '#19381F', // Dark Green
+        },
+        secondary: {
+            main: '#EEE82C', // Bright Yellow
+            light: '#91CB3E', // Light Green
+            contrastText: '#FFFFFF', // White for text on secondary elements
+        },
+        background: {
+            default: '#53A548', // Medium Green background
+            paper: '#4C934C', // Darker Green for paper background
+        },
+        action: {
+            hover: '#8B0000', // Dark Red for hover (unchanged)
+        },
+        text: {
+            primary: '#19381F', // Dark Green for primary text
+            secondary: '#4C934C', // Darker Green for secondary text
+        },
+    },
+    typography: {
+        fontFamily: 'Roboto, sans-serif',
+    },
+});
 
-export default theme;
+// Adjust font sizes with media queries
+theme2 = createTheme(theme2, {
+    typography: {
+        h6: {
+            '@media (min-width:200px)': {
+                fontSize: '0.4rem', // Adjust font size for smaller screens
+            },
+            '@media (min-width:500px)': {
+                fontSize: '1.1rem', // Adjust font size for larger screens
+            },
+        },
+        body1: {
+            '@media (min-width:200px)': {
+                fontSize: '0.4rem', // Adjust font size for smaller screens
+            },
+            '@media (min-width:500px)': {
+                fontSize: '0.9rem', // Adjust font size for larger screens
+            },
+        }
+    },
+    components: {
+        MuiTableRow: {
+            styleOverrides: {
+                root: {
+                    '&:hover': {
+                        backgroundColor: theme2.palette.action.hover, // Accessing palette variable
+                    },
+                },
+            },
+        },
+    },
+});
+
+export {theme, theme2}
