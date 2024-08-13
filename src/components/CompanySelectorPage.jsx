@@ -1,4 +1,4 @@
-import { Container, Box, Dialog, DialogActions,Button, DialogContent, DialogContentText,DialogTitle, Slide } from "@mui/material";
+import { Container, Box, Dialog, DialogActions,Button, DialogContent, DialogContentText,DialogTitle, Slide, CircularProgress } from "@mui/material";
 import CompanyDisplayPaper from "./CompanyDisplayPaper";
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
@@ -35,7 +35,8 @@ const navigate = useNavigate();
     //This will be used to track the company that the user has selected to sign in to. Whose button they clicked
     const [selectedCompany, setSelectedCompany] = useState(null);
 
-    
+    //This will be used to track if the data has been loaded or not. Controls displaying "<Circular Indeterminate/>"
+    const [dataLoaded, setDataLoaded] = useState(false);
       
 
     //This will be used to track if the dialogue box is open or not to confirm singing in
@@ -150,12 +151,12 @@ setConfirmationDialogueOpen(true);
 
 
             const logs = await getLastLogForEachCompany(instance, accounts);//backendAPICalls.js
-            console.log(logs)
+           
             setLastLogs(logs);
-           console.log( logs.find(log=>log.company==="I1"))
+           
         }
 
-        fetchLastLogs();
+        fetchLastLogs().then(()=> { setDataLoaded(true)} );
 
         setInterval(fetchLastLogs, dataFetchRate); //updates data every 2 seconds
     
@@ -171,7 +172,12 @@ setConfirmationDialogueOpen(true);
     }
 
     return (
-        <Box sx={{
+
+        <>
+       {!dataLoaded && <CircularProgress/>}
+       
+       
+       {dataLoaded &&  <Box sx={{
             paddingLeft: { xs: '5%', sm: '5%', md: '5%', lg: '5%' },
             paddingRight: { xs: '5%', sm: '5%', md: '5%', lg: '5%' },
             paddingTop: { xs: '2%', sm: '2%', md: '2%', lg: '2%' },
@@ -229,7 +235,8 @@ setConfirmationDialogueOpen(true);
         </DialogActions>
       </Dialog>
 
-        </Box>
+        </Box>}
+        </>
     )
 }
 

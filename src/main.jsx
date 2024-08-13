@@ -7,7 +7,7 @@ import { MsalProvider } from '@azure/msal-react';
 import { msalConfig } from './authConfig';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { theme, theme2 } from './theme.js';
+import { theme, theme2, westPointTheme } from './theme.js';
 import {LocalizationProvider} from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 /**
@@ -24,7 +24,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <MsalProvider instance={msalInstance}>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={westPointTheme}>
             
                 <CssBaseline />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>

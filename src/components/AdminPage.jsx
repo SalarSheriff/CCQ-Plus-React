@@ -1,4 +1,4 @@
-import { Menu, Typography } from "@mui/material";
+import { Menu, Typography, Box } from "@mui/material";
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -80,21 +80,31 @@ function AdminPage() {
             {dataLoaded && <><Typography variant="h2">Admin Page</Typography>
 
 
-                <Select value={companyName} onChange={handleCompanySelectChange}>
+                
 
-                    {regiments.map((regiment) => (
 
-                        regiment.companies.map((company) => (
-                            <MenuItem value={company.name}>{company.name}</MenuItem>
-                        ))
+<Box sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    padding: '2%'
+}}>
+    <Select value={companyName} onChange={handleCompanySelectChange}>
 
-                    ))}
+{regiments.map((regiment) => (
 
-                </Select>
+    regiment.companies.map((company) => (
+        <MenuItem value={company.name}>{company.name}</MenuItem>
+    ))
 
-                <DatePicker onChange={handleStartDateChange} value={startDate} label="Start Date" />
+))}
+
+</Select>
+<DatePicker onChange={handleStartDateChange} value={startDate} label="Start Date" />
                 <DatePicker onChange={handleEndDateChange} value={endDate} label="End Date" />
                 <LogDisplayTable logs={logs} tableContainerRef={tableContainerRef} />
+</Box>
+                
             </>}
 
         </>
