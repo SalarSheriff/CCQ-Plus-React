@@ -112,7 +112,7 @@ function CCQPage() {
             setDialogueOpen(false);
             navigate("/");
         }
-        else if(dialogueTitle === "Presence Patrol") {
+        else if(dialogueTitle === "Inspection") {
            
           
             //Begin a patrol
@@ -126,14 +126,14 @@ function CCQPage() {
             
             
         }
-        else if(dialogueTitle === "End Presence Patrol") {
+        else if(dialogueTitle === "End Inspection") {
             setIsPatrolling(false);
             
             setDialogueOpen(false)
 
 
-            //Upload Presence Patrol to server
-            uploadPresencePatrol(instance, accounts, "patrol", companyName, patrolTimer, patrolComments);
+            //Upload Inspection to server
+            uploadPresencePatrol(instance, accounts, "inspection", companyName, patrolTimer, patrolComments);
 
             //Reset timer
             setPatrolTimer(0);
@@ -185,13 +185,13 @@ function CCQPage() {
 
 //If the button is clicked begin a patrol. If a patrol is already being conducted, end the patrol
             if(!isPatrolling) {
-                handleDialogOpen("Presence Patrol", "Begin presence patrol for " + companyName + "?");
+                handleDialogOpen("Inspection", "Begin inspection for " + companyName + "?");
             }
            else {
-            handleDialogOpen("End Presence Patrol", "End presence patrol for " + companyName + "?");
+            handleDialogOpen("End Inspection", "End inspection for " + companyName + "?");
            }
 
-         }} > {isPatrolling ? "Patroling for: " +  patrolTimer + " seconds": "Begin Presence Patrol" }</Button>
+         }} > {isPatrolling ? "Inspecting for: " +  patrolTimer + " seconds": "Begin Inspection" }</Button>
 
 
 

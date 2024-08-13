@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import dayjs from 'dayjs';
 import { useMsal } from '@azure/msal-react';
-import { dataFetchRate, getLogs, uploadLog, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, regiments } from '../backendAPICalls.js'
+import { dataFetchRate, getLogs, uploadLog, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, validateAdmin, regiments } from '../backendAPICalls.js'
 import LogDisplayTable from "./LogsDisplayTable";
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
@@ -44,7 +44,22 @@ function AdminPage() {
         }
     }, [logs]);
 
+//Check server if valid admin
+    useEffect(() => { 
 
+
+        async function checkAdmin() { 
+
+            let isAdmin = await validateAdmin(instance, accounts);
+            
+         
+            if (!isAdmin) {
+                navigate("/unauthorized");
+            }
+        }
+        checkAdmin();
+
+    }, []);
 
 
 

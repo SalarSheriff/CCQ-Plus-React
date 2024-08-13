@@ -160,7 +160,7 @@ async function uploadLog(instance, accounts, action, company) {
       //Date stuff is done on the backend
       body: JSON.stringify({
         company: company,
-        message: "User " + accounts[0].username + " performed a presence patrol for " + (patrolTime/60) + " minutes\n" + "Comments: " + patrolComments,
+        message: "User " + accounts[0].username + " inspected the AO. Comments: " + patrolComments,
         name: accounts[0].name, //This will be verified through token, but use this for now when tokens aren't being used
         action: action,
         patrolTime: patrolTime,
@@ -240,7 +240,28 @@ async function getLogsInRange(instance, accounts, company, date1, date2) {
       const data = await nodeCall.json().catch((error) => { console.log(error)});
       return data;
 }
+async function validateAdmin(instance, accounts) {
+
+      
+      const request = {
+        scopes: ["User.Read"],
+        account: accounts[0]
+      };
+      const response = await instance.acquireTokenSilent(request);
+  
+      const nodeCall = await fetch(apiEndpoint + 'validateAdmin', {
+        headers: {
+          "Authorization": `${response.accessToken}`// Bearer prefix is added server side
+          ,"email": accounts[0].username
+        }
+      });
+  
+      const data = await nodeCall.json();
+      return data;
+  
+    
+}
 
 
 
-  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, regiments, dataFetchRate };
+  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, validateAdmin, regiments, dataFetchRate };

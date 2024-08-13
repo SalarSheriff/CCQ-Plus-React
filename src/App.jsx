@@ -6,7 +6,7 @@ import { SignOutButton } from './components/SignOutButton';
 import SignInPage from './components/SignInPage';
 import '../src/App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CompanySelectorPage from './components/CompanySelectorPage';
 import CCQPlusAppBar from './components/CCQPlusAppBar';
 import CCQPage from './components/CCQPage';
@@ -120,7 +120,18 @@ You are not signed in to CCQ Plus. Please go to / to sign in.
 </>
 } />
 
-
+<Route path='/unauthorized' element={
+  <>
+  
+  {/* Only display this if an account is signed in, else an error will occur trying to access email */}
+  {accounts[0] &&<> <Typography variant="h2">Unauthorized User</Typography>
+  <Typography variant="h6">Your account: {accounts[0].username} is not authorized to view the admin logs. If you believe this is a mistake please contact: salar.sheriff@westpoint.edu</Typography>
+  </>
+}
+  </> 
+  
+  
+  } />
 
 
         </Routes>
