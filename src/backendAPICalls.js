@@ -53,20 +53,206 @@ const regiments = [
               name: 'G1',
               mascot: "Greeks",
               slogan: "G1 SLOGAN!"
-          }, {
+          }, 
+          {
               id: 8,
               name: 'H1',
               mascot: "Hogs",
               slogan: "H1 SLOGAN!"
-          }, {
+          }, 
+          {
               id: 9,
               name: 'I1',
               mascot: "Iron Horses",
               slogan: "Rum Em Down!"
           }
       ]
+  },
+  {
+      id: 2,
+      name: '2nd Regiment',
+      motto: 'Second to None',
+      companies: [
+          {
+              id: 1,
+              name: 'A2',
+              mascot: "Archers",
+              slogan: "A2 SLOGAN!"
+          },
+          {
+              id: 2,
+              name: 'B2',
+              mascot: "Berserkers",
+              slogan: "B2 SLOGAN!"
+          },
+          {
+              id: 3,
+              name: 'C2',
+              mascot: "Crusaders",
+              slogan: "C2 SLOGAN!"
+          },
+          {
+              id: 4,
+              name: 'D2',
+              mascot: "Dragons",
+              slogan: "D2 SLOGAN!"
+          },
+          {
+              id: 5,
+              name: 'E2',
+              mascot: "Eagles",
+              slogan: "E2 SLOGAN!"
+          },
+          {
+              id: 6,
+              name: 'F2',
+              mascot: "Falcons",
+              slogan: "F2 SLOGAN!"
+          },
+          {
+              id: 7,
+              name: 'G2',
+              mascot: "Gladiators",
+              slogan: "G2 SLOGAN!"
+          }, 
+          {
+              id: 8,
+              name: 'H2',
+              mascot: "Hawks",
+              slogan: "H2 SLOGAN!"
+          }, 
+          {
+              id: 9,
+              name: 'I2',
+              mascot: "Invincibles",
+              slogan: "I2 SLOGAN!"
+          }
+      ]
+  },
+  {
+      id: 3,
+      name: '3rd Regiment',
+      motto: 'Tried and True',
+      companies: [
+          {
+              id: 1,
+              name: 'A3',
+              mascot: "Arrows",
+              slogan: "A3 SLOGAN!"
+          },
+          {
+              id: 2,
+              name: 'B3',
+              mascot: "Bulldogs",
+              slogan: "B3 SLOGAN!"
+          },
+          {
+              id: 3,
+              name: 'C3',
+              mascot: "Centaurs",
+              slogan: "C3 SLOGAN!"
+          },
+          {
+              id: 4,
+              name: 'D3',
+              mascot: "Demons",
+              slogan: "D3 SLOGAN!"
+          },
+          {
+              id: 5,
+              name: 'E3',
+              mascot: "Elks",
+              slogan: "E3 SLOGAN!"
+          },
+          {
+              id: 6,
+              name: 'F3',
+              mascot: "Foxes",
+              slogan: "F3 SLOGAN!"
+          },
+          {
+              id: 7,
+              name: 'G3',
+              mascot: "Griffins",
+              slogan: "G3 SLOGAN!"
+          }, 
+          {
+              id: 8,
+              name: 'H3',
+              mascot: "Hurricanes",
+              slogan: "H3 SLOGAN!"
+          }, 
+          {
+              id: 9,
+              name: 'I3',
+              mascot: "Inquisitors",
+              slogan: "I3 SLOGAN!"
+          }
+      ]
+  },
+  {
+      id: 4,
+      name: '4th Regiment',
+      motto: 'Fourth and Fierce',
+      companies: [
+          {
+              id: 1,
+              name: 'A4',
+              mascot: "Aces",
+              slogan: "A4 SLOGAN!"
+          },
+          {
+              id: 2,
+              name: 'B4',
+              mascot: "Bison",
+              slogan: "B4 SLOGAN!"
+          },
+          {
+              id: 3,
+              name: 'C4',
+              mascot: "Cobras",
+              slogan: "C4 SLOGAN!"
+          },
+          {
+              id: 4,
+              name: 'D4',
+              mascot: "Defenders",
+              slogan: "D4 SLOGAN!"
+          },
+          {
+              id: 5,
+              name: 'E4',
+              mascot: "Erasers",
+              slogan: "E4 SLOGAN!"
+          },
+          {
+              id: 6,
+              name: 'F4',
+              mascot: "Furies",
+              slogan: "F4 SLOGAN!"
+          },
+          {
+              id: 7,
+              name: 'G4',
+              mascot: "Guardians",
+              slogan: "G4 SLOGAN!"
+          }, 
+          {
+              id: 8,
+              name: 'H4',
+              mascot: "Hellhounds",
+              slogan: "H4 SLOGAN!"
+          }, 
+          {
+              id: 9,
+              name: 'I4',
+              mascot: "Indestructibles",
+              slogan: "I4 SLOGAN!"
+          }
+      ]
   }
 ]
+
 
 
 

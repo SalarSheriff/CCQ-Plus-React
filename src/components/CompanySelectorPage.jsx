@@ -5,7 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
-import { uploadLog, getLastLogForEachCompany, dataFetchRate } from '../backendAPICalls.js'
+import { uploadLog, getLastLogForEachCompany, dataFetchRate , regiments} from '../backendAPICalls.js'
 //Transition for the dialogue modal
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -63,68 +63,6 @@ const navigate = useNavigate();
 
 
 
-
-    const regiments = [
-        {
-            id: 1,
-            name: '1st Regiment',
-            motto: 'First and Proud',
-            companies: [
-                {
-                    id: 1,
-                    name: 'A1',
-                    mascot: "Assassins",
-                    slogan: "A1 SLOGAN!"
-                },
-                {
-                    id: 2,
-                    name: 'B1',
-                    mascot: "Barbarians",
-                    slogan: "B1 SLOGAN!"
-                },
-                {
-                    id: 3,
-                    name: 'C1',
-                    mascot: "Celts",
-                    slogan: "C1 SLOGAN!"
-                },
-                {
-                    id: 4,
-                    name: 'D1',
-                    mascot: "Ducks",
-                    slogan: "D1 SLOGAN!"
-                },
-                {
-                    id: 5,
-                    name: 'E1',
-                    mascot: "Vikings",
-                    slogan: "E1 SLOGAN!"
-                },
-                {
-                    id: 6,
-                    name: 'F1',
-                    mascot: "Firehouse",
-                    slogan: "F1 SLOGAN!"
-                },
-                {
-                    id: 7,
-                    name: 'G1',
-                    mascot: "Greeks",
-                    slogan: "G1 SLOGAN!"
-                }, {
-                    id: 8,
-                    name: 'H1',
-                    mascot: "Hogs",
-                    slogan: "H1 SLOGAN!"
-                }, {
-                    id: 9,
-                    name: 'I1',
-                    mascot: "Iron Horses",
-                    slogan: "Rum Em Down!"
-                }
-            ]
-        }
-    ]
 
 
     

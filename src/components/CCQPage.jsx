@@ -14,6 +14,10 @@ import {dataFetchRate, getLogs, uploadLog, uploadPresencePatrol, getLogsInRange,
 import CircularProgress from '@mui/material/CircularProgress';
 import LogDisplayTable from './LogsDisplayTable.jsx';
 import dayjs from 'dayjs';
+import {  Grid, IconButton } from '@mui/material';
+import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
+import UploadImagesForm from './UploadImagesForm.jsx';
+
 //Transition for the dialogue modal
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -217,6 +221,8 @@ function CCQPage() {
            
     
             }}>Sign Out</Button>
+
+<UploadImagesForm/>
 </Box>
 
         <Dialog
