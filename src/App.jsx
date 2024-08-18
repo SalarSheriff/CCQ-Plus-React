@@ -11,6 +11,7 @@ import CompanySelectorPage from './components/CompanySelectorPage';
 import CCQPlusAppBar from './components/CCQPlusAppBar';
 import CCQPage from './components/CCQPage';
 import AdminPage from './components/AdminPage';
+import ImageViewPage from './components/ImageViewPage';
 export default function App() {
 
   const { instance, accounts } = useMsal();
@@ -129,6 +130,14 @@ You are not signed in to CCQ Plus. Please go to / to sign in.
   </>
 }
   </> 
+  
+  
+  } />
+  <Route path='/imageview/' element={
+<>
+
+<ImageViewPage/>
+</>
   
   
   } />

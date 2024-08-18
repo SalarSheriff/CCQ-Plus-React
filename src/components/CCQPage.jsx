@@ -222,7 +222,7 @@ function CCQPage() {
     
             }}>Sign Out</Button>
 
-<UploadImagesForm/>
+<UploadImagesForm companyName={companyName}/>
 </Box>
 
         <Dialog

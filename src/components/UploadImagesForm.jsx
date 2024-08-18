@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Grid, Box, IconButton, Typography } from '@mui/material';
 import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
 
-function UploadImagesForm() {
+function UploadImagesForm({companyName}) {
     const [images, setImages] = useState([{}]);
     const [comment, setComment] = useState('');
 
@@ -34,12 +34,13 @@ function UploadImagesForm() {
         images.forEach((image, index) => {
             if (image instanceof File) {
                 formData.append('images', image); // 'images' is the key, you can change this according to your backend
+                
             }
         });
     
         // Append comment to the form data
         formData.append('comment', comment);
-    
+        formData.append('company', companyName); // 'company' is the key, you can change this according to your backend
         try {
             const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "uploadimages", {
                 method: 'POST',
@@ -49,6 +50,8 @@ function UploadImagesForm() {
             if (response.ok) {
                 const result = await response.json();
                 console.log('Upload successful:', result);
+                setImages([{}]);
+                setComment('');
             } else {
                 console.error('Upload failed:', response.statusText);
             }

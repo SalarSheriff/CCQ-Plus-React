@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 //instance and accounts have to be passed as parameters and cannot be used here because they are react hooks
 
 //How often data is called from the backend
@@ -449,5 +451,26 @@ async function validateAdmin(instance, accounts) {
 }
 
 
+//IDK Why the parameters in this order work?
+async function fetchImages(date, company) {
+  try {
+      // Corrected the order of company and date in the URL
+      const response = await fetch(apiEndpoint + "images/" + date + "/" + company);
+      console.log(apiEndpoint + "images/" + date + "/" + company);
 
-  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, validateAdmin, regiments, dataFetchRate };
+      if (response.ok) {
+          const data = await response.json();
+          return data
+          console.log('Fetched images:', data);
+      } else {
+          console.error('Failed to fetch images');
+      }
+  } catch (error) {
+      console.error('Error fetching images:', error);
+  }
+};
+
+
+
+
+  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, validateAdmin, fetchImages, regiments, dataFetchRate };
