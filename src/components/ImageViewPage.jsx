@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DatePicker } from "@mui/x-date-pickers";
-import { ImageList, ImageListItem, MenuItem, Select , FormControl, InputLabel} from '@mui/material';
+import { ImageList, ImageListItem, MenuItem, Select , FormControl, InputLabel, Box, Typography} from '@mui/material';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
 import { fetchImages } from '../backendAPICalls';
@@ -33,7 +33,13 @@ function ImageViewPage() {
 
 
     return (
-        <>
+        <Box sx={{
+            paddingLeft: '2%',
+            paddingRight: '2%',
+            paddingTop: '2%',
+        }}>
+        <Typography variant="h4">View Inspection Images</Typography>
+        <Typography variant="h6">Select a company and date to view inspection images</Typography>
         <FormControl fullWidth>
             <InputLabel id="company-select-label">Company</InputLabel>
             <Select
@@ -88,13 +94,14 @@ function ImageViewPage() {
 
 
                 
-                <ImageList sx={{ width: 1000, height: 1000 }} cols={3} rowHeight={164}>
+                <ImageList sx={{ width: "50%", height: "50%" }} cols={4} rowHeight={400} gap={2} >
                 {images.map((image, index) => (
                         <ImageListItem key={index}>
                             <img
                                 src={`data:image/jpeg;base64,${image.imageData}`}
                                 alt={image.name}
                                 loading="lazy"
+                                
                             />
                         </ImageListItem>
                     ))}
@@ -103,7 +110,7 @@ function ImageViewPage() {
 
             </> : <h1>Loading</h1>}
 
-        </>
+        </Box>
     );
 }
 

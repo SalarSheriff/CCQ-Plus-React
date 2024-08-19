@@ -62,8 +62,13 @@ function UploadImagesForm({companyName}) {
     
 
     return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-            <Typography variant="h6">Upload Images</Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={
+            { mt: 2,
+                marginBottom: '3%',
+
+         }
+         }>
+            <Typography variant="h5">Upload Inspection Images</Typography>
             <Grid container spacing={2}>
                 {images.map((image, index) => (
                     <Grid item xs={12} key={index}>

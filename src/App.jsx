@@ -85,7 +85,12 @@ export default function App() {
               }}>
               <AuthenticatedTemplate>
                 <CCQPlusAppBar />
-               <CCQPage/>
+                <Box sx={{overflow: 'auto',
+                  
+                }}>
+                <CCQPage/>
+                </Box>
+               
               </AuthenticatedTemplate>
               <UnauthenticatedTemplate>
 

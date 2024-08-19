@@ -203,7 +203,8 @@ function CCQPage() {
 <Box sx={{
   display: 'flex',
   flexDirection: 'row',
-  gap:'2'
+  gap:'2',
+  
 }}>
 <TextField onChange={handleSpecialMessageCommentsChange} value={specialMessageComments} placeholder='Special Message'></TextField>
 
