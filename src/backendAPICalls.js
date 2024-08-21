@@ -257,6 +257,12 @@ const regiments = [
 
 
 
+async function wakeUpServer() {
+
+  await fetch(apiEndpoint.replace("api/", "")).then(()=> {console.log("Server is awake")}).catch((error) => {console.log("Server is not awake")});
+}
+
+
 
 //Base function to send authentication to server
 async function callNode(instance, accounts) {
@@ -473,4 +479,4 @@ async function fetchImages(date, company) {
 
 
 
-  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, validateAdmin, fetchImages, regiments, dataFetchRate };
+  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, validateAdmin, fetchImages, wakeUpServer, regiments, dataFetchRate, apiEndpoint };

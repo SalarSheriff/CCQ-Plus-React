@@ -1,11 +1,11 @@
-import { Container, Box, Dialog, DialogActions,Button, DialogContent, DialogContentText,DialogTitle, Slide, CircularProgress } from "@mui/material";
+import { Container, Box, Dialog, DialogActions,Button, DialogContent, DialogContentText,DialogTitle, Slide, CircularProgress ,Link} from "@mui/material";
 import CompanyDisplayPaper from "./CompanyDisplayPaper";
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
-import { uploadLog, getLastLogForEachCompany, dataFetchRate , regiments} from '../backendAPICalls.js'
+import { uploadLog, getLastLogForEachCompany, wakeUpServer, dataFetchRate , regiments, apiEndpoint} from '../backendAPICalls.js'
 //Transition for the dialogue modal
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -15,6 +15,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
   
 function CompanySelectorPage() {
+
+
+  useEffect(() => {
+    async function pingServer() {
+      await wakeUpServer()
+    }
+
+
+    pingServer();
+}, []);
 
     const { instance, accounts } = useMsal();
 //This has to be retrieved here rather than passed through App.jsx because if the user is not logged in, 
@@ -112,7 +122,9 @@ setConfirmationDialogueOpen(true);
     return (
 
         <>
-       {!dataLoaded && <CircularProgress/>}
+
+
+       {!dataLoaded && <><CircularProgress/> <Link href={apiEndpoint.replace("api/", "")}>Click this link if site is not loading</Link></>}
        
        
        {dataLoaded &&  <Box sx={{
