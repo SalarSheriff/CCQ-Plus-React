@@ -78,19 +78,19 @@ const regiments = [
           {
               id: 1,
               name: 'A2',
-              mascot: "Archers",
+              mascot: "Spartans",
               slogan: "A2 SLOGAN!"
           },
           {
               id: 2,
               name: 'B2',
-              mascot: "Berserkers",
+              mascot: "Bulldogs",
               slogan: "B2 SLOGAN!"
           },
           {
               id: 3,
               name: 'C2',
-              mascot: "Crusaders",
+              mascot: "Circus",
               slogan: "C2 SLOGAN!"
           },
           {
@@ -102,31 +102,31 @@ const regiments = [
           {
               id: 5,
               name: 'E2',
-              mascot: "Eagles",
+              mascot: "Brewdawgz",
               slogan: "E2 SLOGAN!"
           },
           {
               id: 6,
               name: 'F2',
-              mascot: "Falcons",
+              mascot: "Zoo",
               slogan: "F2 SLOGAN!"
           },
           {
               id: 7,
               name: 'G2',
-              mascot: "Gladiators",
+              mascot: "Gators",
               slogan: "G2 SLOGAN!"
           }, 
           {
               id: 8,
               name: 'H2',
-              mascot: "Hawks",
+              mascot: "Happy",
               slogan: "H2 SLOGAN!"
           }, 
           {
               id: 9,
               name: 'I2',
-              mascot: "Invincibles",
+              mascot: "Moose",
               slogan: "I2 SLOGAN!"
           }
       ]
@@ -139,43 +139,43 @@ const regiments = [
           {
               id: 1,
               name: 'A3',
-              mascot: "Arrows",
+              mascot: "Anacondas",
               slogan: "A3 SLOGAN!"
           },
           {
               id: 2,
               name: 'B3',
-              mascot: "Bulldogs",
+              mascot: "Bandits",
               slogan: "B3 SLOGAN!"
           },
           {
               id: 3,
               name: 'C3',
-              mascot: "Centaurs",
+              mascot: "Coyotes",
               slogan: "C3 SLOGAN!"
           },
           {
               id: 4,
               name: 'D3',
-              mascot: "Demons",
+              mascot: "Dinos",
               slogan: "D3 SLOGAN!"
           },
           {
               id: 5,
               name: 'E3',
-              mascot: "Elks",
+              mascot: "Eagles",
               slogan: "E3 SLOGAN!"
           },
           {
               id: 6,
               name: 'F3',
-              mascot: "Foxes",
+              mascot: "Troop",
               slogan: "F3 SLOGAN!"
           },
           {
               id: 7,
               name: 'G3',
-              mascot: "Griffins",
+              mascot: "Gophers",
               slogan: "G3 SLOGAN!"
           }, 
           {
@@ -187,7 +187,7 @@ const regiments = [
           {
               id: 9,
               name: 'I3',
-              mascot: "Inquisitors",
+              mascot: "Icemen",
               slogan: "I3 SLOGAN!"
           }
       ]
@@ -200,55 +200,55 @@ const regiments = [
           {
               id: 1,
               name: 'A4',
-              mascot: "Aces",
+              mascot: "Apaches",
               slogan: "A4 SLOGAN!"
           },
           {
               id: 2,
               name: 'B4',
-              mascot: "Bison",
+              mascot: "Buffaloes",
               slogan: "B4 SLOGAN!"
           },
           {
               id: 3,
               name: 'C4',
-              mascot: "Cobras",
+              mascot: "Cowboys",
               slogan: "C4 SLOGAN!"
           },
           {
               id: 4,
               name: 'D4',
-              mascot: "Defenders",
+              mascot: "Dukes",
               slogan: "D4 SLOGAN!"
           },
           {
               id: 5,
               name: 'E4',
-              mascot: "Erasers",
+              mascot: "Elephants",
               slogan: "E4 SLOGAN!"
           },
           {
               id: 6,
               name: 'F4',
-              mascot: "Furies",
+              mascot: "Frogs",
               slogan: "F4 SLOGAN!"
           },
           {
               id: 7,
               name: 'G4',
-              mascot: "Guardians",
+              mascot: "Guppies",
               slogan: "G4 SLOGAN!"
           }, 
           {
               id: 8,
               name: 'H4',
-              mascot: "Hellhounds",
+              mascot: "Hogs",
               slogan: "H4 SLOGAN!"
           }, 
           {
               id: 9,
               name: 'I4',
-              mascot: "Indestructibles",
+              mascot: "I-Beams",
               slogan: "I4 SLOGAN!"
           }
       ]
@@ -416,6 +416,8 @@ async function uploadLog(instance, accounts, action, company) {
       const data = await nodeCall.json();
       return data;
   }
+
+ 
 async function getLogsInRange(instance, accounts, company, date1, date2) {
 
  
@@ -475,8 +477,47 @@ async function fetchImages(date, company) {
       console.error('Error fetching images:', error);
   }
 };
+async function getImageInspectionComments(company, date) {
+
+    
+  
+
+  const nodeCall = await fetch(apiEndpoint + 'getImageInspectionComments/'+company+'/'+date, {
+    
+  });
+
+  const data = await nodeCall.json();
+  return data;
+
+}
+
+async function uploadImageInspectionComments(instance, accounts, company, comment) {
+
+  const request = {
+    scopes: ["User.Read"],
+    account: accounts[0]
+  };
+  const response = await instance.acquireTokenSilent(request);
+
+  const nodeCall = await fetch(apiEndpoint + 'uploadImageInspectionComments', {
+    method: 'POST',
+    headers: {
+      'Authorization': `${response.accessToken}`,
+      'Content-Type': 'application/json'
+    },
+
+    //Date stuff is done on the backend
+    body: JSON.stringify({
+      company: company,
+      comment: comment,
+      cadet_name: accounts[0].name, //This will be verified through token, but use this for now when tokens aren't being used
+     
+
+
+    })
+  });
+}
 
 
 
-
-  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, validateAdmin, fetchImages, wakeUpServer, regiments, dataFetchRate, apiEndpoint };
+  export { callNode, uploadLog, getLogs, getLastLogForEachCompany, uploadPresencePatrol, getLogsInRange, uploadSpecialMessage, validateAdmin, fetchImages, wakeUpServer, getImageInspectionComments, uploadImageInspectionComments, regiments, dataFetchRate, apiEndpoint };

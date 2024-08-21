@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Box, IconButton, Typography } from '@mui/material';
 import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
-
+import { uploadImageInspectionComments } from '../backendAPICalls';
+import { useMsal } from '@azure/msal-react';
 function UploadImagesForm({companyName}) {
+
+    //Account information
+    const { instance, accounts } = useMsal();
+
+
     const [images, setImages] = useState([{}]);
     const [comment, setComment] = useState('');
 
@@ -50,6 +56,10 @@ function UploadImagesForm({companyName}) {
             if (response.ok) {
                 const result = await response.json();
                 console.log('Upload successful:', result);
+
+                //UPLOAD THE comments once the images are uploaded
+                uploadImageInspectionComments(instance, accounts, companyName, comment);
+
                 setImages([{}]);
                 setComment('');
             } else {
@@ -58,6 +68,10 @@ function UploadImagesForm({companyName}) {
         } catch (error) {
             console.error('Error uploading images:', error);
         }
+
+
+
+
     };
     
 

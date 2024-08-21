@@ -3,11 +3,12 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { ImageList, ImageListItem, MenuItem, Select , FormControl, InputLabel, Box, Typography} from '@mui/material';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
-import { fetchImages } from '../backendAPICalls';
+import { fetchImages, getImageInspectionComments } from '../backendAPICalls';
 
 function ImageViewPage() {
     const [date, setDate] = useState(dayjs());
     const [images, setImages] = useState([]);
+    const[imageInspectionComments, setImageInspectionComments] = useState([]);
 
     const[company, setCompany] = useState("A1");
     
@@ -24,12 +25,23 @@ function ImageViewPage() {
                 console.error("Error fetching images:", error);
             }
         }
+
+        async function getData2() {
+            try {
+                const data = await getImageInspectionComments(company, date.format("YYYYMMDD"));
+                setImageInspectionComments(data);
+                console.log(data)
+            }
+            catch (error) {
+                console.error("Error fetching comments:", error);
+            }
+        }
     
         getData().then(() => setDataLoaded(true));
-    
+        getData2();
     }, [date, company]); // Include dependencies here, such as 'company' if it might change
     
-
+    
 
 
     return (
@@ -107,6 +119,10 @@ function ImageViewPage() {
                     ))}
                 </ImageList>
 
+                {imageInspectionComments.map((comment, index) => (<>
+                
+                <Typography  variant="h6">{comment.cadet_name} at {comment.time}: {comment.comment}</Typography>
+                </>))}
 
             </> : <h1>Loading</h1>}
 
