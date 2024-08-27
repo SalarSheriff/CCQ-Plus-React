@@ -17,14 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function CompanySelectorPage() {
 
 
-  useEffect(() => {
-    async function pingServer() {
-      await wakeUpServer()
-    }
-
-
-    pingServer();
-}, []);
+  
 
     const { instance, accounts } = useMsal();
 //This has to be retrieved here rather than passed through App.jsx because if the user is not logged in, 
@@ -93,23 +86,42 @@ setConfirmationDialogueOpen(true);
 
     useEffect(() => { 
 
+      // Async functions must be defined in useEffect
+    const fetchLastLogs = async () => { 
+      try {
+          const logs = await getLastLogForEachCompany(instance, accounts); //backendAPICalls.js
+          setLastLogs(logs);
+          setDataLoaded(true); // Set dataLoaded to true only after successfully fetching the data
+      } catch (error) {
+          console.error("Failed to fetch logs:", error);
+      }
+  }
+      // Function to ping the server and fetch data
+      const pingServerAndFetchLogs = async () => {
+          try {
+              const serverResponse = await wakeUpServer(); // Wake up the server
+              if (serverResponse instanceof Error) {
+                  console.error("Error waking up server:", serverResponse);
+                  // Handle the error case as needed
+              } else {
+                  await fetchLastLogs(); // Fetch data after server wakes up
+                  const intervalId = setInterval(fetchLastLogs, dataFetchRate); // Update data every 2 seconds
+  
+                  // Cleanup function to clear the interval
+                  return () => clearInterval(intervalId);
+              }
+          } catch (error) {
+              console.error("Unexpected error:", error);
+          }
+      };
+  
+      pingServerAndFetchLogs();
+  
+  }, [instance, accounts]);
+  
 
-        //Async functions must be defined in useEffect
-        const fetchLastLogs = async () => { 
 
 
-            const logs = await getLastLogForEachCompany(instance, accounts);//backendAPICalls.js
-           
-            setLastLogs(logs);
-           
-        }
-
-        fetchLastLogs().then(()=> { setDataLoaded(true)} );
-
-        setInterval(fetchLastLogs, dataFetchRate); //updates data every 2 seconds
-    
-        
-    },[] )
 
     //This will take a "last log" and generate the text to be displayed on the button
     //Ex if the last log for I1 was CDT Sheriff assumed, then it would say, CDT Sheriff is currently on the CCQ

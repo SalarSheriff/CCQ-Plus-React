@@ -258,9 +258,16 @@ const regiments = [
 
 
 async function wakeUpServer() {
-
-  await fetch(apiEndpoint.replace("api/", "")).then(()=> {console.log("Server is awake")}).catch((error) => {console.log("Server is not awake")});
+  try {
+    const response = await fetch(apiEndpoint.replace("api/", ""));
+    console.log("Server is awake");
+    return response;  // Return the response if needed
+  } catch (error) {
+    console.error("Server is not awake", error);
+    return error;  // Return the error
+  }
 }
+
 
 
 
@@ -297,7 +304,7 @@ async function callNode(instance, accounts) {
         "Authorization": `${response.accessToken}`// Bearer prefix is added server side
       }
     });
-
+ 
     const data = await nodeCall.json();
     return data;
 
