@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import CCQPlusLogo from '../assets/CCQPluslogo.png';
 import SignInWithMicrosoftButton from "./SignInWithMicrosoftButton";
-function SignInPage() {
+function SignInPageMobile() {
 
 
 
@@ -14,7 +14,7 @@ function SignInPage() {
             {/* Left Half of Screen */}
             <Box sx={{
 
-                width: '60%',
+                width: '100%',
                 height: '100vh',
                 backgroundColor: 'black',
                 paddingTop: '10%',
@@ -68,36 +68,33 @@ function SignInPage() {
                     color: 'white',
 
                 }} >Ditch the ineffective paper logs, switch to a feature rich site accessible on all platforms </Typography>
-            
-            
-            </Box>
-
-            {/* Right half of screen */}
-            <Box sx={{
-                height: '100vh',
-                width: '40%',
-                backgroundColor: 'white',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-
-                paddingTop: '15%',
-
-
-            }}>
-
-
-
-
                 <Box sx={{
-                    width: '70%',
+
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+
+                    paddingTop: '15%',
+
 
                 }}>
 
-                    <SignInWithMicrosoftButton />
+
+
+
+                    <Box sx={{
+                        width: '70%',
+
+                    }}>
+
+                        <SignInWithMicrosoftButton />
+                    </Box>
+
                 </Box>
 
             </Box>
+
+
 
 
         </Box>
@@ -107,4 +104,4 @@ function SignInPage() {
 
 
 
-export default SignInPage;
+export default SignInPageMobile;

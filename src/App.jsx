@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
 import { SignInButton } from './components/SignInButton';
 import { SignOutButton } from './components/SignOutButton';
 import SignInPage from './components/SignInPage';
+import SignInPageMobile from './components/SignInPageMobile';
 import '../src/App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
@@ -16,6 +17,20 @@ export default function App() {
 
   const { instance, accounts } = useMsal();
 
+
+//To adjust what login page is displayed based on screen size
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // Assuming 768px as the mobile breakpoint
+  
+  //Handle updating isMobile state on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   //Base function to send authentication to server
   async function callNode() {
@@ -66,7 +81,7 @@ export default function App() {
                 </AuthenticatedTemplate>
 
                 <UnauthenticatedTemplate>
-                  <SignInPage />
+                {isMobile ? <SignInPageMobile /> : <SignInPage />}
                 </UnauthenticatedTemplate>
               </Box>
             </>
