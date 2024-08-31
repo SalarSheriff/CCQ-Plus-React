@@ -120,6 +120,24 @@ setConfirmationDialogueOpen(true);
   }, [instance, accounts]);
   
 
+//Device switch support
+  //This will check if the user is signed in to any company and if they are, it will send them to the CCQ page
+useEffect(()=> {
+
+  lastLogs.forEach(log => {
+
+    //Check if they are logged in or posted any message, then send them over to the CCQ page
+    //This supports device switching. 
+    //Make sure not to send them if they are relieved
+    if(log.name == accounts[0].name && log.action != "relieved") {
+      navigate("/ccq/" + log.company);
+    }
+    
+  });
+
+}, [lastLogs])
+
+
 
 
 
