@@ -60,7 +60,7 @@ function CCQPlusAppBar() {
 
                     </Menu>
 
-                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>CCQ Plus</Typography>
+                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>CCQ Plus v{import.meta.env.VITE_CCQPLUS_VERSION_NUMBER}</Typography>
 
 
                     <Tooltip title="AO Image Viewer">

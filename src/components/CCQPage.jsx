@@ -72,7 +72,7 @@ function CCQPage() {
 
       //initial load
         async function fetchData() { 
-            
+
 
             let data = await getLogsInRange(instance, accounts, companyName, dayjs().format('YYYYMMDD'), dayjs().add(1, "day").format("YYYYMMDD")); //only load current day's logs
             setLogs(data);
@@ -154,7 +154,10 @@ function CCQPage() {
 
 
             //Upload Inspection to server
-            uploadPresencePatrol(instance, accounts, "inspection", companyName, patrolTimer, patrolComments);
+            uploadPresencePatrol(instance, accounts, "inspection", companyName, patrolTimer, patrolComments).then(()=> {
+//After the message is uploaded, fetch the data from the server to update the ui
+fetchDataFromServer()
+            })
 
             //Reset timer
             setPatrolTimer(0);
@@ -162,14 +165,16 @@ function CCQPage() {
         else if(dialogueTitle === "Special Message") { 
 
 
-          uploadSpecialMessage(instance, accounts, "special message", companyName, specialMessageComments);
+          uploadSpecialMessage(instance, accounts, "special message", companyName, specialMessageComments).then(()=> {
+            //After the message is uploaded, fetch the data from the server to update the ui
+        fetchDataFromServer()
+          });
           setDialogueOpen(false);
           setSpecialMessageComments("");
         }
 
 
-        //After the message is uploaded, fetch the data from the server to update the ui
-        fetchDataFromServer()
+        
     }
     function handlePatrolCommentsChange(event) {
         setPatrolComments(event.target.value);
