@@ -105,10 +105,12 @@ setConfirmationDialogueOpen(true);
                   // Handle the error case as needed
               } else {
                   await fetchLastLogs(); // Fetch data after server wakes up
-                  const intervalId = setInterval(fetchLastLogs, dataFetchRate); // Update data every 2 seconds
+
+                  //DO not constanly ping server to reload logs on home page
+                  //const intervalId = setInterval(fetchLastLogs, dataFetchRate); // Update data every 2 seconds
   
                   // Cleanup function to clear the interval
-                  return () => clearInterval(intervalId);
+                  //return () => clearInterval(intervalId);
               }
           } catch (error) {
               console.error("Unexpected error:", error);

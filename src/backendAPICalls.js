@@ -292,6 +292,8 @@ async function callNode(instance, accounts) {
   }
   //Gets the latest logs for each company so that the company selector can display the latest log for each company
   async function getLastLogForEachCompany(instance, accounts) {
+console.log("Getting last log for each company")
+
     //Get the authentication token
     const request = {
       scopes: ["User.Read"],
@@ -313,7 +315,7 @@ async function callNode(instance, accounts) {
 
 async function uploadLog(instance, accounts, action, company) {
 
-    
+    console.log("Uploading log")
     const request = {
       scopes: ["User.Read"],
       account: accounts[0]
@@ -344,7 +346,7 @@ async function uploadLog(instance, accounts, action, company) {
 
   async function uploadPresencePatrol(instance, accounts, action, company, patrolTime, patrolComments) {
 
-    
+    console.log("Uploading Presence Patrol")
     const request = {
       scopes: ["User.Read"],
       account: accounts[0]
@@ -378,7 +380,7 @@ async function uploadLog(instance, accounts, action, company) {
 
 
   async function uploadSpecialMessage(instance, accounts, action, company, specialMessageComments) {
-
+console.log("Uploading Special Message")
     
     const request = {
       scopes: ["User.Read"],
@@ -427,7 +429,7 @@ async function uploadLog(instance, accounts, action, company) {
  
 async function getLogsInRange(instance, accounts, company, date1, date2) {
 
- 
+  console.log(`Getting logs in range: ${date1}-${date2} from Company: ${company}`);
       const request = {
         scopes: ["User.Read"],
         account: accounts[0]
@@ -468,6 +470,7 @@ async function validateAdmin(instance, accounts) {
 
 //IDK Why the parameters in this order work?
 async function fetchImages(date, company) {
+  console.log("Fetching Images from server")
   try {
       // Corrected the order of company and date in the URL
       const response = await fetch(apiEndpoint + "images/" + date + "/" + company);
@@ -486,7 +489,7 @@ async function fetchImages(date, company) {
 };
 async function getImageInspectionComments(company, date) {
 
-    
+  console.log("Getting Image Inspection Comments")
   
 
   const nodeCall = await fetch(apiEndpoint + 'getImageInspectionComments/'+company+'/'+date, {

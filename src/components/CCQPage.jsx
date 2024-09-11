@@ -69,14 +69,16 @@ function CCQPage() {
     
 
     useEffect(()=> {
-        async function fetchData() { 
 
+      //initial load
+        async function fetchData() { 
+            
 
             let data = await getLogsInRange(instance, accounts, companyName, dayjs().format('YYYYMMDD'), dayjs().add(1, "day").format("YYYYMMDD")); //only load current day's logs
             setLogs(data);
         }
         fetchData().then(()=> { setDataLoaded(true)} );
-        setInterval(fetchData, dataFetchRate);
+        //setInterval(fetchData, dataFetchRate);
     },[])
 
 
@@ -95,6 +97,14 @@ function CCQPage() {
     }, [isPatrolling]);
 
 
+//The initial version of this function is called when the page is loaded in useEffect()
+// This is called after a log is submitted
+// We DO NOT want to now user intervals to constantly load data from SQL every 2 seconds
+    async function fetchDataFromServer() {
+      let data = await getLogsInRange(instance, accounts, companyName, dayjs().format('YYYYMMDD'), dayjs().add(1, "day").format("YYYYMMDD")); //only load current day's logs
+      setLogs(data);
+    }
+
 
     function handleDialogOpen(title, message) {
         setDialogueTitle(title);
@@ -112,9 +122,16 @@ function CCQPage() {
     function handleDialogueAccept() {
 
         if(dialogueTitle === "Sign Out") {
-            uploadLog(instance, accounts, "relieved", companyName);
-            setDialogueOpen(false);
-            navigate("/");
+            uploadLog(instance, accounts, "relieved", companyName).then(()=> {
+              setDialogueOpen(false);
+              navigate("/");
+            });
+
+            //HAVE TO ADD A DELAY HERE TO ENSURE THE LOG IS UPLOADED BEFORE NAVIGATING
+
+
+            
+            
         }
         else if(dialogueTitle === "Inspection") {
            
@@ -149,6 +166,10 @@ function CCQPage() {
           setDialogueOpen(false);
           setSpecialMessageComments("");
         }
+
+
+        //After the message is uploaded, fetch the data from the server to update the ui
+        fetchDataFromServer()
     }
     function handlePatrolCommentsChange(event) {
         setPatrolComments(event.target.value);
