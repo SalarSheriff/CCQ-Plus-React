@@ -70,28 +70,38 @@ function UploadImagesForm({companyName}) {
                 method: 'POST',
                 body: formData,
             });
-
-            if (response.ok) {
-                const result = await response.json();
-                console.log('Upload successful:', result);
-
-                // UPLOAD THE comments once the images are uploaded
-                uploadImageInspectionComments(instance, accounts, companyName, comment);
-
+            await uploadImageInspectionComments(instance, accounts, companyName, comment);
                 setImages([{}]);
                 setComment('');
                 setImagesUploading(false);
-
-
-                // Clear all input elements
+    // Clear all input elements
                 inputRefs.current.forEach(ref => {
                     if (ref) {
                         ref.value = '';
                     }
                 });
-            } else {
-                console.error('Upload failed:', response.statusText);
-            }
+
+            // if (response.ok) {
+            //     const result = await response.json();
+            //     console.log('Upload successful:', result);
+
+            //     // UPLOAD THE comments once the images are uploaded
+            //     uploadImageInspectionComments(instance, accounts, companyName, comment);
+
+            //     setImages([{}]);
+            //     setComment('');
+            //     setImagesUploading(false);
+
+
+            //     // Clear all input elements
+            //     inputRefs.current.forEach(ref => {
+            //         if (ref) {
+            //             ref.value = '';
+            //         }
+            //     });
+            // } else {
+            //     console.error('Upload failed:', response.statusText);
+            // }
         } catch (error) {
             console.error('Error uploading images:', error);
         }
