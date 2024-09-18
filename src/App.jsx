@@ -155,7 +155,7 @@ You are not signed in to CCQ Plus. Please go to / to sign in.
   } />
   <Route path='/imageview/' element={
 <>
-
+<CCQPlusAppBar/>
 <ImageViewPage/>
 </>
   
