@@ -13,22 +13,23 @@ import CCQPlusAppBar from './components/CCQPlusAppBar';
 import CCQPage from './components/CCQPage';
 import AdminPage from './components/AdminPage';
 import ImageViewPage from './components/ImageViewPage';
+import UnauthorizedPage from './components/UnauthorizedPage';
 export default function App() {
 
   const { instance, accounts } = useMsal();
 
 
-//To adjust what login page is displayed based on screen size
+  //To adjust what login page is displayed based on screen size
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // Assuming 768px as the mobile breakpoint
-  
+
   //Handle updating isMobile state on window resize
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-  
+
     window.addEventListener('resize', handleResize);
-  
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -76,12 +77,12 @@ export default function App() {
                 <AuthenticatedTemplate>
                   <CCQPlusAppBar />
 
-                  <CompanySelectorPage /> 
-                 
+                  <CompanySelectorPage />
+
                 </AuthenticatedTemplate>
 
                 <UnauthenticatedTemplate>
-                {isMobile ? <SignInPageMobile /> : <SignInPage />}
+                  {isMobile ? <SignInPageMobile /> : <SignInPage />}
                 </UnauthenticatedTemplate>
               </Box>
             </>
@@ -98,69 +99,82 @@ export default function App() {
                 display: 'flex',
                 flexDirection: 'column',
               }}>
-              <AuthenticatedTemplate>
-                <CCQPlusAppBar />
-                <Box sx={{overflow: 'auto',
-                  
-                }}>
-                <CCQPage/>
-                </Box>
-               
-              </AuthenticatedTemplate>
-              <UnauthenticatedTemplate>
+                <AuthenticatedTemplate>
+                  <CCQPlusAppBar />
+                  <Box sx={{
+                    overflow: 'auto',
 
-You are not signed in to CCQ Plus. Please go to / to sign in.
-                
-              </UnauthenticatedTemplate>
+                  }}>
+                    <CCQPage />
+                  </Box>
+
+                </AuthenticatedTemplate>
+                <UnauthenticatedTemplate>
+
+                  You are not signed in to CCQ Plus. Please go to / to sign in.
+
+                </UnauthenticatedTemplate>
               </Box>
 
             </>
           } />
           <Route path='/adminview' element={
 
-<>
-  <Box sx={{
-    width: '100%',
-    height: '100vh',
+            <>
+              <Box sx={{
+                width: '100%',
+                height: '100vh',
 
-    overflow: 'hidden', // Disable scrolling
-    display: 'flex',
-    flexDirection: 'column',
-  }}>
-  <AuthenticatedTemplate>
-    <CCQPlusAppBar />
-   <AdminPage/>
-  </AuthenticatedTemplate>
-  <UnauthenticatedTemplate>
+                overflow: 'hidden', // Disable scrolling
+                display: 'flex',
+                flexDirection: 'column',
+              }}>
+                <AuthenticatedTemplate>
+                  <CCQPlusAppBar />
+                  <AdminPage />
+                </AuthenticatedTemplate>
+                <UnauthenticatedTemplate>
 
-You are not signed in to CCQ Plus. Please go to / to sign in.
-    
-  </UnauthenticatedTemplate>
-  </Box>
+                  You are not signed in to CCQ Plus. Please go to / to sign in.
 
-</>
-} />
+                </UnauthenticatedTemplate>
+              </Box>
 
-<Route path='/unauthorized' element={
-  <>
-  
-  {/* Only display this if an account is signed in, else an error will occur trying to access email */}
-  {accounts[0] &&<> <Typography variant="h2">Unauthorized User</Typography>
-  <Typography variant="h6">Your account: {accounts[0].username} is not authorized to view the admin logs. If you believe this is a mistake please contact: salar.sheriff@westpoint.edu</Typography>
-  </>
-}
-  </> 
-  
-  
-  } />
-  <Route path='/imageview/' element={
-<>
-<CCQPlusAppBar/>
-<ImageViewPage/>
-</>
-  
-  
-  } />
+            </>
+          } />
+
+
+{/* For Admin View */}
+          <Route path='/unauthorized' element={
+            <>
+
+              {/* Only display this if an account is signed in, else an error will occur trying to access email */}
+              {accounts[0] && <> <Typography variant="h2">Unauthorized User</Typography>
+                <Typography variant="h6">Your account: {accounts[0].username} is not authorized to view the admin logs. If you believe this is a mistake please contact: salar.sheriff@westpoint.edu</Typography>
+              </>
+              }
+            </>
+
+
+          } />
+
+          {/* Unauthorized as in non West Point */}
+          <Route path='/unauthorizeduser/' element={
+            <>
+              <UnauthorizedPage />
+            </>
+
+
+          } />
+          <Route path='/imageview/' element={
+            <>
+              <CCQPlusAppBar />
+              <ImageViewPage />
+            </>
+
+
+          } />
+          
 
 
         </Routes>

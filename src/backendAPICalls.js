@@ -290,27 +290,43 @@ async function callNode(instance, accounts) {
     });
 
   }
-  //Gets the latest logs for each company so that the company selector can display the latest log for each company
-  async function getLastLogForEachCompany(instance, accounts) {
-console.log("Getting last log for each company")
+ 
+  // Gets the latest logs for each company so that the company selector can display the latest log for each company
+async function getLastLogForEachCompany(instance, accounts) {
+  console.log("Getting last log for each company");
 
-    //Get the authentication token
+  try {
+    // Get the authentication token
     const request = {
       scopes: ["User.Read"],
       account: accounts[0]
     };
     const response = await instance.acquireTokenSilent(request);
 
-    const nodeCall = await fetch( apiEndpoint+'getLastLogForEachCompany', {
+    const nodeCall = await fetch(apiEndpoint + 'getLastLogForEachCompany', {
       headers: {
-        "Authorization": `${response.accessToken}`// Bearer prefix is added server side
+        "Authorization": `${response.accessToken}` // Bearer prefix is added server side
       }
     });
- 
+
+    // Check if the response status is 401 (Unauthorized)
+    if (nodeCall.status === 401) {
+      // Redirect to /unauthorizeduser if not authorized
+      window.location.href = '/unauthorizeduser';
+      return;
+    }
+
+    // If not unauthorized, parse the response
     const data = await nodeCall.json();
     return data;
 
+  } catch (error) {
+    console.error("Error getting the last log for each company:", error);
+    // Handle other errors as needed
+    throw error;
   }
+}
+
 
 
 async function uploadLog(instance, accounts, action, company) {
