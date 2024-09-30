@@ -4,7 +4,7 @@ import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
 import { uploadImageInspectionComments } from '../backendAPICalls';
 import { useMsal } from '@azure/msal-react';
 
-function UploadImagesForm({companyName}) {
+function UploadImagesForm({ companyName }) {
     // Account information
     const { instance, accounts } = useMsal();
 
@@ -14,7 +14,7 @@ function UploadImagesForm({companyName}) {
 
 
     //Tracks whether loading circle for uploading images should be shown
-    const[imagesUploading, setImagesUploading] = useState(false);
+    const [imagesUploading, setImagesUploading] = useState(false);
 
 
     /*
@@ -71,15 +71,15 @@ function UploadImagesForm({companyName}) {
                 body: formData,
             });
             await uploadImageInspectionComments(instance, accounts, companyName, comment);
-                setImages([{}]);
-                setComment('');
-                setImagesUploading(false);
-    // Clear all input elements
-                inputRefs.current.forEach(ref => {
-                    if (ref) {
-                        ref.value = '';
-                    }
-                });
+            setImages([{}]);
+            setComment('');
+            setImagesUploading(false);
+            // Clear all input elements
+            inputRefs.current.forEach(ref => {
+                if (ref) {
+                    ref.value = '';
+                }
+            });
 
             // if (response.ok) {
             //     const result = await response.json();
@@ -114,7 +114,7 @@ function UploadImagesForm({companyName}) {
             {imagesUploading && <Box sx={{}}>
                 <Typography variant="h6">Uploading Images. Do not refresh!</Typography>
                 <CircularProgress />
-            </Box>} 
+            </Box>}
 
 
 
