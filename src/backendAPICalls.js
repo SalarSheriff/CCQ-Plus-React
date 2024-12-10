@@ -295,6 +295,7 @@ async function callNode(instance, accounts) {
 async function getLastLogForEachCompany(instance, accounts) {
   console.log("Getting last log for each company");
 
+  console.log(apiEndpoint + "getLastLogForEachCompany")
   try {
     // Get the authentication token
     const request = {

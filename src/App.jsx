@@ -14,6 +14,7 @@ import CCQPage from './components/CCQPage';
 import AdminPage from './components/AdminPage';
 import ImageViewPage from './components/ImageViewPage';
 import UnauthorizedPage from './components/UnauthorizedPage';
+import DAFormGenerator from './components/DAFormGenerator';
 export default function App() {
 
   const { instance, accounts } = useMsal();
@@ -174,6 +175,14 @@ export default function App() {
 
 
           } />
+          <Route path='/daform' element= {
+            <>
+          <DAFormGenerator/>
+          </>
+          }/>
+          
+
+          
           
 
 
