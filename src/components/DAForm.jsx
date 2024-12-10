@@ -7,7 +7,7 @@ function DAForm({logs, date}) {
     return (
         <>
 
-            <h1>DA Form Generator</h1>
+     
             <Container>
                 <Grid container spacing={2} >
                     {/* HEADING of FORM */}
@@ -58,6 +58,12 @@ function DAForm({logs, date}) {
                             ORGANIZATION OR INSTALLATION
 
                         </Typography>
+                        <Typography
+                            variant="body2"
+                            sx={{
+textAlign:"center"
+                            }}
+                        >USCC</Typography>
 
                     </Grid>
                     <Grid
