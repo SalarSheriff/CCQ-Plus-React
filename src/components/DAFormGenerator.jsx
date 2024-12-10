@@ -1,217 +1,38 @@
 import { Container, Grid, Typography, Box } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-
-
+import DAForm from './DAForm';
+import { getLogsInRange } from '../backendAPICalls';
+import { useMsal } from '@azure/msal-react';
+import { useNavigate, useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 function DAFormGenerator() {
 
-    return (
-        <>
-
-            <h1>DA Form Generator</h1>
-            <Container>
-                <Grid container spacing={2} >
-                    <Grid item xs={10} sx={
-                        {
-                            border: '1px solid black',
-
-                            textAlign: 'center',
-
-                            paddingTop: '0px',
-                            paddingBottom: '4px'
-
-                        }
+//Account information
+const { instance, accounts } = useMsal();
+const navigate = useNavigate();
 
 
-                    }>
-                        <Typography
-                            variant="subtitle2"
-                            sx={{
+    const [companyName, setCompanyName] = useState("A1");
+    const [date, setDate] = useState(dayjs())
+    const [logs, setLogs] = useState([])
+    useEffect(() => {
+        async function fetchData() {
 
-                            }}
-                        >
-                            DAILY STAFF JOURNAL OR DUTY OFFICER'S LOG
+          
+            let data = await getLogsInRange(instance, accounts, companyName, date.format("YYYYMMDD"), date.add(1, "day").format("YYYYMMDD")); //only load current day's logs
+            console.log(date.format("YYYYMMDD"))
+            setLogs(data)
+        }
+        fetchData().then(() => { 
 
-                        </Typography>
+            console.log(log)
+        });
 
-                        <Typography variant='body2' sx={{ margin: 0 }}>For use of this form, see TC 3-22.6; the proponent agency is TRADOC</Typography>
-                    </Grid>
-                    <Grid item xs={2} sx={{ border: '1px solid black' }}>
-                        <Typography variant='body2' sx={{ margin: 0 }}>NO. OF PAGES</Typography>
-                    </Grid>
-
-                    <Grid
-                        item
-                        xs={3}
-                        sx={{
-                            border: '1px solid black',
-                            padding: '1px', // Add 1px padding to the Grid
-                      
-                        }}
-                    >
-                        <Typography
-                            variant="body2"
-                            sx={{
-
-                            }}
-                        >
-                            ORGANIZATION OR INSTALLATION
-
-                        </Typography>
-
-                    </Grid>
-                    <Grid
-                        item
-                        xs={3}
-                        sx={{
-                            border: '1px solid black',
-                            padding: '1px', // Add 1px padding to the Grid
-                           
-                        }}
-                    >
-                        <Typography
-                            variant="body2"
-                            sx={{
-
-                            }}
-                        >
-                            LOCATION
-
-                        </Typography>
-
-
-
-                    </Grid>
-
-
-                    <Grid
-                        item
-                        xs={6}
-                        sx={{
-                            border: '1px solid black',
-                            padding: '1px', // Add 1px padding to the Grid
-                           
-                        }}
-                    >
-                        <Grid container sx={{textAlign: "center"}}>
-                            <Grid item xs={12}>
-                                <Typography
-                                    variant="body2"
-                                    sx={{
-                                        border: '1px solid black',
-                                        
-                                    }}
-                                >
-                                    PERIOD COVERED
-
-                                </Typography>
-                            </Grid>
-
-                            <Grid item xs={6} >
-                            <Typography
-                                    variant="body2"
-                                    sx={{
-                                        border: '1px solid black',
-                                    }}
-                                >
-                                    FROM
-
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6} >
-                            <Typography
-                                    variant="body2"
-                                    sx={{
-                                        border: '1px solid black',
-                                    }}
-                                >
-                                    TO
-
-                                </Typography>
-                            </Grid>
-
-                            <Grid item xs={2} >
-                            <Typography
-                                    variant="body2"
-                                    sx={{
-                                        border: '1px solid black',
-                                    }}
-                                >
-                                    HOUR
-
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4} >
-                            <Typography
-                                    variant="body2"
-                                    sx={{
-                                        border: '1px solid black',
-                                    }}
-                                >
-                                    DATE
-
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={2} >
-                            <Typography
-                                    variant="body2"
-                                    sx={{
-                                        border: '1px solid black',
-                                    }}
-                                >
-                                    HOUR
-
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4} >
-                            <Typography
-                                    variant="body2"
-                                    sx={{
-                                        border: '1px solid black',
-                                    }}
-                                >
-                                    DATE
-
-                                </Typography>
-                            </Grid>
-
-                        </Grid>
-
-
-                                    
-
-                    </Grid>
-
-
-                    <Grid item xs={1} sx={{ border: '1px solid black' , textAlign:"center"}}>
-                        <Typography variant='body2' >ITEM</Typography>
-                        <Typography variant='body2' >NO.</Typography>
-                    </Grid>
-                    <Grid item xs={1} sx={{ border: '1px solid black' , textAlign:"center"}}>
-                        <Typography variant='body2' >TIME</Typography>
-                        <Typography variant='body2' >IN</Typography>
-                    </Grid>
-                    <Grid item xs={1} sx={{ border: '1px solid black' , textAlign:"center"}}>
-                        <Typography variant='body2' >TIME</Typography>
-                        <Typography variant='body2' >OUT</Typography>
-                    </Grid>
-                    <Grid item xs={6} sx={{ border: '1px solid black' , textAlign:"center"}}>
-                        <Typography variant='body2' >INCIDENTS, MESSAGES, ORDERS, ETC.</Typography>
-                        
-                    </Grid>
-                    <Grid item xs={2} sx={{ border: '1px solid black' , textAlign:"center"}}>
-                        <Typography variant='body2' >ACTION TAKEN</Typography>
-                        
-                    </Grid>
-                    <Grid item xs={1} sx={{ border: '1px solid black' , textAlign:"center"}}>
-                        <Typography variant='body2' >INL</Typography>
-                        
-                    </Grid>
-                </Grid>
-            </Container>
-
-        </>
-
-    )
+    }, []);
+    return(<>
+    
+    <DAForm logs={logs} date={date.format("YYYY/MM/DD")}/>
+    </>)
 }
 
 export default DAFormGenerator;
