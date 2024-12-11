@@ -175,7 +175,7 @@ export default function App() {
 
 
           } />
-          <Route path='/daform' element= {
+          <Route path='/daform/:preSelectedCompany?/:preSelectedDate?' element= {
             <>
           <DAFormGenerator/>
           </>

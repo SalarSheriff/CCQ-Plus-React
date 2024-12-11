@@ -249,6 +249,16 @@ fetchDataFromServer()
     
             }}>Sign Out</Button>
 
+
+<Button onClick={()=> {
+
+
+const formattedDate = dayjs().format("YYYYMMDD"); // Format the current date
+navigate(`/daform/${companyName}/${formattedDate}`);
+
+}} variant="contained" color='secondary'>Export To DA Form</Button>
+
+
 <UploadImagesForm companyName={companyName}/>
 </Box>
 

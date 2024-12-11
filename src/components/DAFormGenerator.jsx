@@ -13,8 +13,15 @@ function DAFormGenerator() {
     const navigate = useNavigate();
 
 
-    const [companyName, setCompanyName] = useState("none");
-    const [date, setDate] = useState(dayjs())
+    //Grab params from url for preload
+    const {preSelectedCompany} = useParams()
+    const {preSelectedDate} = useParams()
+
+
+    const [companyName, setCompanyName] = useState(preSelectedCompany.toUpperCase() || "none");
+    const [date, setDate] = useState(
+     preSelectedDate ? dayjs(preSelectedDate, "YYYYMMDD") : dayjs()
+    );
     const [logs, setLogs] = useState([])
 
 
@@ -28,6 +35,19 @@ function DAFormGenerator() {
 
     }
 
+
+    // Update companyName and date when URL parameters change, this allows pre set links to load data without a state toggle
+    useEffect(() => {
+        if (preSelectedCompany) {
+            setCompanyName(preSelectedCompany.toUpperCase());
+        }
+        if (preSelectedDate) {
+            const parsedDate = dayjs(preSelectedDate, "YYYYMMDD");
+            if (parsedDate.isValid()) {
+                setDate(parsedDate);
+            }
+        }
+    }, [preSelectedCompany, preSelectedDate]);
 
     useEffect(() => {
         async function fetchData() {
