@@ -61,7 +61,7 @@ function CCQPlusAppBar() {
                     </Menu>
 
                     <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-    <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link to="/companySelect" style={{ textDecoration: 'none', color: 'inherit' }}>
         CCQ Plus v{import.meta.env.VITE_CCQPLUS_VERSION_NUMBER}
     </Link>
 </Typography>

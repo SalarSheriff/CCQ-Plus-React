@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import {  Grid, IconButton } from '@mui/material';
 import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
 import UploadImagesForm from './UploadImagesForm.jsx';
-
+import Cookies from 'js-cookie';
 //Transition for the dialogue modal
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -74,7 +74,7 @@ function CCQPage() {
         async function fetchData() { 
 
 
-            let data = await getLogsInRange(instance, accounts, companyName, dayjs().format('YYYYMMDD'), dayjs().add(1, "day").format("YYYYMMDD")); //only load current day's logs
+            let data = await getLogsInRange(companyName, dayjs().format('YYYYMMDD'), dayjs().add(1, "day").format("YYYYMMDD")); //only load current day's logs
             setLogs(data);
         }
         fetchData().then(()=> { setDataLoaded(true)} );
@@ -101,7 +101,7 @@ function CCQPage() {
 // This is called after a log is submitted
 // We DO NOT want to now user intervals to constantly load data from SQL every 2 seconds
     async function fetchDataFromServer() {
-      let data = await getLogsInRange(instance, accounts, companyName, dayjs().format('YYYYMMDD'), dayjs().add(1, "day").format("YYYYMMDD")); //only load current day's logs
+      let data = await getLogsInRange(companyName, dayjs().format('YYYYMMDD'), dayjs().add(1, "day").format("YYYYMMDD")); //only load current day's logs
       setLogs(data);
     }
 
@@ -122,9 +122,9 @@ function CCQPage() {
     function handleDialogueAccept() {
 
         if(dialogueTitle === "Sign Out") {
-            uploadLog(instance, accounts, "relieved", companyName).then(()=> {
+            uploadLog(Cookies.get("username"), Cookies.get("email"), "relieved", companyName).then(()=> {
               setDialogueOpen(false);
-              navigate("/");
+              navigate("/companySelect");
             });
 
             //HAVE TO ADD A DELAY HERE TO ENSURE THE LOG IS UPLOADED BEFORE NAVIGATING
@@ -154,7 +154,7 @@ function CCQPage() {
 
 
             //Upload Inspection to server
-            uploadPresencePatrol(instance, accounts, "inspection", companyName, patrolTimer, patrolComments).then(()=> {
+            uploadPresencePatrol(Cookies.get("username"), Cookies.get("email"), "inspection", companyName, patrolTimer, patrolComments).then(()=> {
 //After the message is uploaded, fetch the data from the server to update the ui
 fetchDataFromServer()
             })
@@ -165,7 +165,7 @@ fetchDataFromServer()
         else if(dialogueTitle === "Special Message") { 
 
 
-          uploadSpecialMessage(instance, accounts, "special message", companyName, specialMessageComments).then(()=> {
+          uploadSpecialMessage(Cookies.get("username"), Cookies.get("email"), "special message", companyName, specialMessageComments).then(()=> {
             //After the message is uploaded, fetch the data from the server to update the ui
         fetchDataFromServer()
           });

@@ -6,6 +6,7 @@ import { useMsal } from '@azure/msal-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
+import Cookies from 'js-cookie'
 function DAFormGenerator() {
 
     //Account information
@@ -53,13 +54,14 @@ function DAFormGenerator() {
         async function fetchData() {
 
 
-            let data = await getLogsInRange(instance, accounts, companyName, date.format("YYYYMMDD"), date.format("YYYYMMDD")); //only load current day's logs
+            let data = await getLogsInRange(companyName, date.format("YYYYMMDD"), date.format("YYYYMMDD")); //only load current day's logs
             console.log(date.format("YYYYMMDD"))
             setLogs(data)
+            console.log(data)
         }
         fetchData().then(() => {
 
-            console.log(log)
+            
         });
 
     }, [date, companyName]);

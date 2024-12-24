@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
 import { uploadLog, getLastLogForEachCompany, wakeUpServer, dataFetchRate , regiments, apiEndpoint} from '../backendAPICalls.js'
+
+import Cookies from 'js-cookie';
 //Transition for the dialogue modal
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -23,9 +25,8 @@ function CompanySelectorPage() {
 //This has to be retrieved here rather than passed through App.jsx because if the user is not logged in, 
 //getting {accounts[0].name}{accounts[0].username} will throw an error
 //When this page is loaded a user has to be logged in
-    let accountName = accounts[0].name;
-    let accountEmail = accounts[0].username;
-
+    let accountName = Cookies.get("username")
+    let accountEmail = Cookies.get("email")
 
 const navigate = useNavigate(); 
 
@@ -58,7 +59,7 @@ const navigate = useNavigate();
         //upload to database
 
         
-        uploadLog(instance, accounts,"assumes", selectedCompany);//backendAPICalls.js
+        uploadLog(Cookies.get("username"), Cookies.get("email"),"assumes", selectedCompany);//backendAPICalls.js
 
         navigate("/ccq/" + selectedCompany);
       }
@@ -131,7 +132,7 @@ useEffect(()=> {
     //Check if they are logged in or posted any message, then send them over to the CCQ page
     //This supports device switching. 
     //Make sure not to send them if they are relieved
-    if(log.name == accounts[0].name && log.action != "relieved") {
+    if(log.name == Cookies.get("username") && log.action != "relieved") {
       navigate("/ccq/" + log.company);
     }
     

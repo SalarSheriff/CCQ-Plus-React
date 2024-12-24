@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { DatePicker } from "@mui/x-date-pickers";
+import Cookies from 'js-cookie'
 function AdminPage() {
 
     //Account information
@@ -50,7 +51,7 @@ function AdminPage() {
 
         async function checkAdmin() { 
 
-            let isAdmin = await validateAdmin(instance, accounts);
+            let isAdmin = await validateAdmin(Cookies.get("username"), Cookies.get("email"));
             
          
             if (!isAdmin) {
@@ -67,7 +68,7 @@ function AdminPage() {
         async function fetchData() {
 
 
-            let data = await getLogsInRange(instance, accounts, companyName, startDate.format("YYYYMMDD"), endDate.add(1, "day").format("YYYYMMDD")); //only load current day's logs
+            let data = await getLogsInRange(companyName, startDate.format("YYYYMMDD"), endDate.add(1, "day").format("YYYYMMDD")); //only load current day's logs
             setLogs(data);
         }
         fetchData().then(() => { setDataLoaded(true) });

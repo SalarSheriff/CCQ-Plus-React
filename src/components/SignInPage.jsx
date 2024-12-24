@@ -1,9 +1,19 @@
-import { Box, Typography } from "@mui/material";
+import { Box, TextField, Typography, Checkbox, Button, FormControlLabel } from '@mui/material';
 import CCQPlusLogo from '../assets/CCQPluslogo.png';
 import SignInWithMicrosoftButton from "./SignInWithMicrosoftButton";
+import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 function SignInPage() {
 
+    const navigate = useNavigate();
+    const [username, setUsername] = useState()
+    const [email, setEmail] = useState()
 
+    const[honorAgree, setHonorAgree] = useState(false)
+
+
+    
 
     return (
         <Box sx={{
@@ -68,8 +78,8 @@ function SignInPage() {
                     color: 'white',
 
                 }} >Ditch the ineffective paper logs, switch to a feature rich site accessible on all platforms </Typography>
-            
-            
+
+
             </Box>
 
             {/* Right half of screen */}
@@ -94,7 +104,50 @@ function SignInPage() {
 
                 }}>
 
-                    <SignInWithMicrosoftButton />
+                    {/* <SignInWithMicrosoftButton /> */}
+
+                    <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%', maxWidth: 400, margin: '0 auto' }}>
+                    <Typography variant="h4" align="center" sx={{
+                    fontFamily: 'Archivo Black, sans-serif',
+                    fontWeight: 400,
+                    fontStyle: 'normal',
+                    color: 'black',
+                }}>Sign In To CCQ Plus</Typography>
+                
+                        <TextField onChange={(e) => {
+                            setUsername(e.target.value);
+                            Cookies.set("username", e.target.value)
+                        }} value={username} id="name" label="Name" variant="outlined" />
+                        
+                        
+                        <TextField onChange={(e)=> {
+                            setEmail(e.target.value)
+                            Cookies.set("email", e.target.value)
+                        }} value={email} id="email" label="Email" variant="outlined" />
+
+<FormControlLabel
+        control={
+          <Checkbox
+            checked={honorAgree}
+            onChange={(e) => setHonorAgree(e.target.checked)}
+            color="primary"
+          />
+        }
+        label="I understand that if I impersonate or enter another person's credentials I am subject to the USMA Honor Code"
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        disabled={!honorAgree}
+        onClick={()=>{
+            navigate("/companySelect")
+        }}
+      >
+        Sign In
+      </Button>
+                    </Box>
+
+
                 </Box>
 
             </Box>

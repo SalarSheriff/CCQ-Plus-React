@@ -75,20 +75,18 @@ export default function App() {
                 flexDirection: 'column',
               }}>
 
-                <AuthenticatedTemplate>
-                  <CCQPlusAppBar />
-
-                  <CompanySelectorPage />
-
-                </AuthenticatedTemplate>
-
-                <UnauthenticatedTemplate>
-                  {isMobile ? <SignInPageMobile /> : <SignInPage />}
-                </UnauthenticatedTemplate>
+                <SignInPage/>
               </Box>
             </>
 
           } />
+          <Route path='/companySelect' element={
+            <>
+            <CCQPlusAppBar />
+
+            <CompanySelectorPage />
+            </>
+          }/>
           <Route path='/ccq/:companyName' element={
 
             <>

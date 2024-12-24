@@ -328,29 +328,53 @@ async function getLastLogForEachCompany(instance, accounts) {
   }
 }
 
+async function uploadLogOld(instance, accounts, action, company) {
+
+  console.log("Uploading log")
+  const request = {
+    scopes: ["User.Read"],
+    account: accounts[0]
+  };
+  const response = await instance.acquireTokenSilent(request);
+
+  const nodeCall = await fetch(apiEndpoint+'uploadLog', {
+    method: 'POST',
+    headers: {
+      'Authorization': `${response.accessToken}`,
+      'Content-Type': 'application/json'
+    },
+
+    //Date stuff is done on the backend
+    body: JSON.stringify({
+      company: company,
+      message: "User " + accounts[0].username + " " + action +  " the CCQ",
+      name: accounts[0].name, //This will be verified through token, but use this for now when tokens aren't being used
+      action: action
+
+    })
+  });
 
 
-async function uploadLog(instance, accounts, action, company) {
+
+
+}
+
+async function uploadLog(username, email, action, company) {
 
     console.log("Uploading log")
-    const request = {
-      scopes: ["User.Read"],
-      account: accounts[0]
-    };
-    const response = await instance.acquireTokenSilent(request);
-
+    
     const nodeCall = await fetch(apiEndpoint+'uploadLog', {
       method: 'POST',
       headers: {
-        'Authorization': `${response.accessToken}`,
+
         'Content-Type': 'application/json'
       },
 
       //Date stuff is done on the backend
       body: JSON.stringify({
         company: company,
-        message: "User " + accounts[0].username + " " + action +  " the CCQ",
-        name: accounts[0].name, //This will be verified through token, but use this for now when tokens aren't being used
+        message: "User " + username + " " + action +  " the CCQ",
+        name: username, //This will be verified through token, but use this for now when tokens aren't being used
         action: action
 
       })
@@ -361,27 +385,21 @@ async function uploadLog(instance, accounts, action, company) {
 
   }
 
-  async function uploadPresencePatrol(instance, accounts, action, company, patrolTime, patrolComments) {
+  async function uploadPresencePatrol(username,email, action, company, patrolTime, patrolComments) {
 
-    console.log("Uploading Presence Patrol")
-    const request = {
-      scopes: ["User.Read"],
-      account: accounts[0]
-    };
-    const response = await instance.acquireTokenSilent(request);
-
+   
     const nodeCall = await fetch(apiEndpoint + 'uploadPresencePatrol', {
       method: 'POST',
       headers: {
-        'Authorization': `${response.accessToken}`,
+        
         'Content-Type': 'application/json'
       },
 
       //Date stuff is done on the backend
       body: JSON.stringify({
         company: company,
-        message: "User " + accounts[0].username + " inspected the AO. Comments: " + patrolComments,
-        name: accounts[0].name, //This will be verified through token, but use this for now when tokens aren't being used
+        message: "User " + username + " inspected the AO. Comments: " + patrolComments,
+        name: username, //This will be verified through token, but use this for now when tokens aren't being used
         action: action,
         patrolTime: patrolTime,
         
@@ -396,19 +414,14 @@ async function uploadLog(instance, accounts, action, company) {
 
 
 
-  async function uploadSpecialMessage(instance, accounts, action, company, specialMessageComments) {
+  async function uploadSpecialMessage(username, email, action, company, specialMessageComments) {
 console.log("Uploading Special Message")
     
-    const request = {
-      scopes: ["User.Read"],
-      account: accounts[0]
-    };
-    const response = await instance.acquireTokenSilent(request);
-
+    
     const nodeCall = await fetch(apiEndpoint + 'uploadLog', {
       method: 'POST',
       headers: {
-        'Authorization': `${response.accessToken}`,
+       
         'Content-Type': 'application/json'
       },
 
@@ -416,7 +429,7 @@ console.log("Uploading Special Message")
       body: JSON.stringify({
         company: company,
         message: specialMessageComments,
-        name: accounts[0].name, //This will be verified through token, but use this for now when tokens aren't being used
+        name: username, //This will be verified through token, but use this for now when tokens aren't being used
         action: "special message",
         specialMessageComments: specialMessageComments
 
@@ -444,42 +457,30 @@ console.log("Uploading Special Message")
   }
 
  
-async function getLogsInRange(instance, accounts, company, date1, date2) {
+async function getLogsInRange(company, date1, date2) {
 
   console.log(`Getting logs in range: ${date1}-${date2} from Company: ${company}`);
-      const request = {
-        scopes: ["User.Read"],
-        account: accounts[0]
-      };
-      const response = await instance.acquireTokenSilent(request);
-  
+    
       const nodeCall = await fetch(apiEndpoint + 'getLogsInRange/'+company+'/'+date1+'/'+date2, {
-        headers: {
-          "Authorization": `${response.accessToken}`// Bearer prefix is added server side
-        }
+        
       });
   
       const data = await nodeCall.json().catch((error) => { console.log(error)});
       return data;
 }
-async function validateAdmin(instance, accounts) {
+async function validateAdmin(username, email) {
 
       
-      const request = {
-        scopes: ["User.Read"],
-        account: accounts[0]
-      };
-      const response = await instance.acquireTokenSilent(request);
-  
+     
       const nodeCall = await fetch(apiEndpoint + 'validateAdmin', {
         headers: {
-          "Authorization": `${response.accessToken}`// Bearer prefix is added server side
-          ,"email": accounts[0].username
+         
+          "email": email
         }
       });
   
       const data = await nodeCall.json();
-      return data;
+      return data.isAdmin;
   
     
 }
