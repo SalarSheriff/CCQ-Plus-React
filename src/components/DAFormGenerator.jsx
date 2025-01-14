@@ -54,7 +54,7 @@ function DAFormGenerator() {
         async function fetchData() {
 
 
-            let data = await getLogsInRange(companyName, date.format("YYYYMMDD"), date.format("YYYYMMDD")); //only load current day's logs
+            let data = await getLogsInRange(companyName, date.format("YYYYMMDD"), date.add(1, "day").format("YYYYMMDD")); //only load current day's logs
             console.log(date.format("YYYYMMDD"))
             setLogs(data)
             console.log(data)

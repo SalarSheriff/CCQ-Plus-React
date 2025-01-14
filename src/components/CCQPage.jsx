@@ -259,7 +259,7 @@ navigate(`/daform/${companyName}/${formattedDate}`);
 }} variant="contained" color='secondary'>Export To DA Form</Button>
 
 
-<UploadImagesForm companyName={companyName}/>
+{/* <UploadImagesForm companyName={companyName}/> */}
 </Box>
 
         <Dialog

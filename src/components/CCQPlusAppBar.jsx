@@ -67,15 +67,15 @@ function CCQPlusAppBar() {
 </Typography>
 
 
-                    <Tooltip title="AO Image Viewer">
+                    {/* <Tooltip title="AO Image Viewer">
 
 
-<IconButton onClick={goToImageView}>
-<Typography variant="h6">AO Image Viewer</Typography>
-    {/* <Avatar src={BTDLogo} /> */}
-</IconButton>
+                        <IconButton onClick={goToImageView}>
+                            <Typography variant="h6">AO Image Viewer</Typography>
+                      
+                        </IconButton>
 
-</Tooltip>
+                    </Tooltip> */}
                     <Tooltip title="Command Team Login">
 
 
@@ -85,7 +85,7 @@ function CCQPlusAppBar() {
 </IconButton>
 
 </Tooltip>
-                    <Tooltip title="Manage Profile">
+                    {/* <Tooltip title="Manage Profile">
 
 
                         <IconButton onClick={handleMenuOpen}>
@@ -93,7 +93,7 @@ function CCQPlusAppBar() {
                             <Avatar src={ProfileImage} />
                         </IconButton>
 
-                    </Tooltip>
+                    </Tooltip> */}
                 </Toolbar>
             </AppBar>
 

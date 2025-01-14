@@ -34,24 +34,7 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  //Base function to send authentication to server
-  async function callNode() {
-    const request = {
-      scopes: ["User.Read"],
-      account: accounts[0]
-    };
-    const response = await instance.acquireTokenSilent(request);
-
-    //console.log(response.accessToken)
-
-    const nodeCall = await fetch('http://localhost:4000/api/protected', {
-      headers: {
-        'Authorization': `${response.accessToken}`
-      }
-    });
-
-  }
-
+  
 
 
 
@@ -98,7 +81,7 @@ export default function App() {
                 display: 'flex',
                 flexDirection: 'column',
               }}>
-                <AuthenticatedTemplate>
+          
                   <CCQPlusAppBar />
                   <Box sx={{
                     overflow: 'auto',
@@ -107,12 +90,7 @@ export default function App() {
                     <CCQPage />
                   </Box>
 
-                </AuthenticatedTemplate>
-                <UnauthenticatedTemplate>
-
-                  You are not signed in to CCQ Plus. Please go to / to sign in.
-
-                </UnauthenticatedTemplate>
+                
               </Box>
 
             </>
@@ -128,15 +106,11 @@ export default function App() {
                 display: 'flex',
                 flexDirection: 'column',
               }}>
-                <AuthenticatedTemplate>
+                
                   <CCQPlusAppBar />
                   <AdminPage />
-                </AuthenticatedTemplate>
-                <UnauthenticatedTemplate>
-
-                  You are not signed in to CCQ Plus. Please go to / to sign in.
-
-                </UnauthenticatedTemplate>
+              
+                
               </Box>
 
             </>

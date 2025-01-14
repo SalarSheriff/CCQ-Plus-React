@@ -1,4 +1,4 @@
-import { Menu, Typography, Box } from "@mui/material";
+import { Menu, Typography, Box, Button } from "@mui/material";
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -45,15 +45,15 @@ function AdminPage() {
         }
     }, [logs]);
 
-//Check server if valid admin
-    useEffect(() => { 
+    //Check server if valid admin
+    useEffect(() => {
 
 
-        async function checkAdmin() { 
+        async function checkAdmin() {
 
             let isAdmin = await validateAdmin(Cookies.get("username"), Cookies.get("email"));
-            
-         
+
+
             if (!isAdmin) {
                 navigate("/unauthorized");
             }
@@ -93,34 +93,54 @@ function AdminPage() {
         <>
             {/* If the data ins't loaded, display a circular progress bar */}
             {!dataLoaded && <CircularProgress />}
-            {dataLoaded && <><Typography variant="h2">Admin Page</Typography>
+            {dataLoaded && <>
 
 
-                
 
 
-<Box sx={{
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    padding: '2%'
-}}>
-    <Select value={companyName} onChange={handleCompanySelectChange}>
 
-{regiments.map((regiment) => (
+                <Box sx={{
+                    display: 'flex', // Change from 'block' to 'flex' for flexbox layout
+                    flexDirection: 'column', // Keep it as 'column' for vertical stacking
+                    gap: '1rem', // Space between items
+                    justifyContent: 'space-between', // Space items evenly
+                    padding: '2%'
+                }}>
+<Typography variant="h2">Command View</Typography>
 
-    regiment.companies.map((company) => (
-        <MenuItem value={company.name}>{company.name}</MenuItem>
-    ))
+                    <Box sx={{
+                        display: 'flex', // Use flexbox for layout
+                        flexDirection: 'row', // Arrange items in a row
+                        alignItems: 'center', // Align items vertically to the same height
+                        gap: '1rem', // Add gaps between items
+                        padding: '0', // Optional padding around the container
+                    }}>
+                        <Select  value={companyName} onChange={handleCompanySelectChange}>
 
-))}
+                            {regiments.map((regiment) => (
 
-</Select>
-<DatePicker onChange={handleStartDateChange} value={startDate} label="Start Date" />
-                <DatePicker onChange={handleEndDateChange} value={endDate} label="End Date" />
-                <LogDisplayTable logs={logs} tableContainerRef={tableContainerRef} />
-</Box>
-                
+                                regiment.companies.map((company) => (
+                                    <MenuItem value={company.name}>{company.name}</MenuItem>
+                                ))
+
+                            ))}
+
+                        </Select>
+                        <DatePicker onChange={handleStartDateChange} value={startDate} label="Start Date" />
+                        <DatePicker onChange={handleEndDateChange} value={endDate} label="End Date" />
+
+                        <Button onClick={() => {
+
+
+                            const formattedDate = startDate.format("YYYYMMDD"); // Format the current date
+                            navigate(`/daform/${companyName}/${formattedDate}`);
+
+                        }} variant="contained" color='secondary'>Export To DA Form</Button>
+                    </Box>
+
+                    <LogDisplayTable logs={logs} tableContainerRef={tableContainerRef} />
+                </Box>
+
             </>}
 
         </>

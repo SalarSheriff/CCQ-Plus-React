@@ -15,7 +15,7 @@ let theme = createTheme({
             paper: '#E0FFFF', // Light Cyan for paper background
         },
         action: {
-            hover: '#8B0000', // Dark Red for hover
+            hover: '#e3e3e3', // Dark Red for hover
         },
         text: {
             primary: '#4B0082', // Dark Purple for primary text

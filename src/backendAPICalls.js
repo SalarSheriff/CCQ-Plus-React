@@ -292,21 +292,15 @@ async function callNode(instance, accounts) {
   }
  
   // Gets the latest logs for each company so that the company selector can display the latest log for each company
-async function getLastLogForEachCompany(instance, accounts) {
+async function getLastLogForEachCompany() {
   console.log("Getting last log for each company");
 
   console.log(apiEndpoint + "getLastLogForEachCompany")
   try {
-    // Get the authentication token
-    const request = {
-      scopes: ["User.Read"],
-      account: accounts[0]
-    };
-    const response = await instance.acquireTokenSilent(request);
-
+   
     const nodeCall = await fetch(apiEndpoint + 'getLastLogForEachCompany', {
       headers: {
-        "Authorization": `${response.accessToken}` // Bearer prefix is added server side
+        
       }
     });
 

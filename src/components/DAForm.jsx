@@ -234,7 +234,13 @@ textAlign:"center"
                         <Typography variant='body2' >{log.time}</Typography>
                         
                     </Grid>
-                    <Grid item xs={1} sx={{ border: '1px solid black' , textAlign:"center"}}>
+                    <Grid item xs={1} sx={{ 
+    border: '1px solid black', 
+    textAlign: 'center',
+    wordWrap: 'break-word', // Break long words to fit within the container
+    whiteSpace: 'normal',  // Allow text to wrap onto the next line
+    overflow: 'hidden',    // Prevent overflow
+  }}>
                         <Typography variant='body2' >{log.timeOut}</Typography>
                     
                     </Grid>
@@ -256,6 +262,18 @@ textAlign:"center"
                     </>))}
 
                     
+
+                    {/* Signature Block */}
+                    <Grid item xs={7} sx={{ border: '1px solid black' , textAlign:"left"}}>
+                        <Typography variant='body2'>TYPE NAME AND GRADE OF OFFICER OR OFFICIAL ON DUTY</Typography>
+                        <br></br>
+                        <br></br>
+                    </Grid>
+                    <Grid item xs={5} sx={{ border: '1px solid black' , textAlign:"left"}}>
+                        <Typography variant='body2'>SIGNATURE</Typography>
+
+                    </Grid>
+
 
 
                 </Grid>

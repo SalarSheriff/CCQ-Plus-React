@@ -90,7 +90,7 @@ setConfirmationDialogueOpen(true);
       // Async functions must be defined in useEffect
     const fetchLastLogs = async () => { 
       try {
-          const logs = await getLastLogForEachCompany(instance, accounts); //backendAPICalls.js
+          const logs = await getLastLogForEachCompany(); //backendAPICalls.js
           setLastLogs(logs);
           setDataLoaded(true); // Set dataLoaded to true only after successfully fetching the data
       } catch (error) {
